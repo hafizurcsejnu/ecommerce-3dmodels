@@ -1,0 +1,129 @@
+@media only screen and (max-width: 700px) {
+    .set_div {
+        background: #686F8C;
+        padding: 2px;
+        height: 50px!important;
+        /* margin-right: -9px; */
+        /* margin-left: -9px; */
+        margin-top: 1px;
+    }
+
+
+    img.logo {
+        max-width: 70%;
+    }
+        
+    h3.collecton, h3.set { 
+        font-size: 18px;
+        background: #ddd;
+        border-bottom: 1px solid #686f8c;
+        padding: 3px;
+    } 
+    .login_m {
+        visibility: visible!important;
+    }
+    .offer{
+        display: none;
+    }
+  }
+
+  /* meadia query end */
+
+.product-gallery-vertical .product-gallery-item {
+    flex: 0 0 100%;
+    max-width: 70%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 1rem;
+    margin-left: 35px!important;
+}
+
+.login_m{
+    visibility: hidden;
+} 
+.set_div img {
+    width: 100%;
+    height: 100%;
+}
+
+img.scroll {
+    height: 125px;
+    width: 100%;
+}
+
+.product-main-image img {
+    max-width: none;
+    width: 100%;
+    height: 350px;
+}
+div#product-zoom-gallery img {
+    height: 50px;
+}
+
+.collection_div img {
+    width: 100%;
+    height: 100%;
+}
+
+figure.product-media img {
+    height: 170px!important;
+}
+
+h2.title.text-center.mb-4 {
+    background: #f0f0f0;
+    padding: 5px;
+    margin-top: 50px;
+}
+
+.header-intro-clearance .header-bottom .header-right p {
+    padding-right: .5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: -.01em;
+}
+
+
+.set_div {
+    background: #686F8C;
+    padding: 2px;
+    height: 125px;
+    margin-right: -9px;
+    margin-left: -9px;
+}
+
+.set_div h5 {
+    margin-top: 50px;
+    margin-left: 50px;
+    display: none;
+}
+
+.icon-box-side .icon-box-icon {
+    font-size: 10rem;
+}
+.icon-box-side .icon-box-title {
+    font-weight: 500;
+    font-size: 2.2rem;
+    letter-spacing: -.01em;
+    margin-top: .2rem;
+    margin-bottom: 0;
+}
+
+
+.cat-block-title {
+    color: #333333;
+    font-weight: 400;
+    font-size: 1.8rem;
+    letter-spacing: -.01em;
+    margin-top: 2rem;
+    margin-bottom: 0;
+} 
+
+.cat-blocks-container img{
+    width: 140%!important;
+}
+
+.alert-success {
+    color: #11481d!important;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
