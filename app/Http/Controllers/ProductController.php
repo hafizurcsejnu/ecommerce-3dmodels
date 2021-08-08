@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Traits\CategoryTrait;
 use DB;
 
 
 class ProductController extends Controller
 {
-   
+    use CategoryTrait;
   
     public function shop(Request $request)
     {
+      $categories = $this->getCategories();
       // $data = DB::table('products') 
       // ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
       // ->select('products.*', 'product_categories.name as catName')        
@@ -23,10 +25,34 @@ class ProductController extends Controller
 
       $data = Product::paginate(20);
       if($request->ajax()){
+        if($request->has('filter')){
+          $form_data = [];
+          parse_str($request->filter, $form_data);
+          $query = Product::query();
+          if(count($form_data["size"])>0){
+            // foreach($form_data->size as $key => $size){
+            //   if($key==0){
+            //     $query->where('size',$size);
+            //   }else{
+            //     $query->orWhere('size',$size);
+            //   }
+            // }
+          }
+          if(count($form_data["brand"])>0){
+            foreach($form_data["brand"] as $key => $brand){
+              if($key==0){
+                $query->where('brand',$brand);
+              }else{
+                $query->orWhere('brand',$brand);
+              }
+            }
+          }
+          return response()->json(json_encode($query->get()));
+        }
         return response()->json(json_encode($data));
       }
       else{
-        return view('shop', ['data'=>$data, 'menu'=>'shop']);
+        return view('shop', ['data'=>$data, 'menu'=>'shop','categories'=>$categories]);
       }
     }
     public function shopCategory($id)

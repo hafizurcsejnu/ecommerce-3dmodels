@@ -8929,6 +8929,56 @@
             "install-path": "../symfony/var-dumper"
         },
         {
+            "name": "theanik/laravel-more-command",
+            "version": "v1.2.0",
+            "version_normalized": "1.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/theanik/laravel-more-command.git",
+                "reference": "aab76744edd18f3fdff240bf8bdd08daf9640985"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/theanik/laravel-more-command/zipball/aab76744edd18f3fdff240bf8bdd08daf9640985",
+                "reference": "aab76744edd18f3fdff240bf8bdd08daf9640985",
+                "shasum": ""
+            },
+            "time": "2021-06-15T16:46:38+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Theanik\\LaravelMoreCommand\\LaravelMoreCommandProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Theanik\\LaravelMoreCommand\\": "src/"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anwar Hossain Anik",
+                    "email": "anwar.anik33@gmail.com"
+                }
+            ],
+            "description": "Create a Repository and Service class and trait using Artisan CLI",
+            "support": {
+                "issues": "https://github.com/theanik/laravel-more-command/issues",
+                "source": "https://github.com/theanik/laravel-more-command/tree/v1.2.0"
+            },
+            "install-path": "../theanik/laravel-more-command"
+        },
+        {
             "name": "thepinecode/i18n",
             "version": "v1.1.0",
             "version_normalized": "1.1.0.0",
@@ -9548,6 +9598,7 @@
         "sebastian/resource-operations",
         "sebastian/type",
         "sebastian/version",
+        "theanik/laravel-more-command",
         "theseer/tokenizer"
     ]
 }

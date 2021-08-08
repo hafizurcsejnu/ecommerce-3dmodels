@@ -224,31 +224,28 @@ $total = 0
                             </a> 
 
                             <div class="dropdown-menu">
-                                <nav class="side-nav">
-                                    <ul class="menu-vertical sf-arrows">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @php $categories = App\Traits\CategoryTrait::getCategories(); @endphp
+                                    @foreach($categories as $category)
+                                        <li>
+                                            <a class="dropdown-item" href="{{URL::to('shop-category')}}/{{$category->id}}">
+                                                {{$category->name}}
+                                                @if(count($category->children)>0) &raquo; @endif
+                                            </a>
+                                            @if(count($category->children)>0)
+                                            <ul class="dropdown-menu dropdown-submenu">
+                                                @foreach($category->children as $subcat)
+                                                <li>
+                                                    <a class="dropdown-item" href="{{URL::to('shop-category')}}/{{$subcat->id}}">{{$subcat->name}}</a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                            @endif
+                                        </li>
 
-                                        {{-- <li class="item-lead"><a href="#">Daily offers</a></li>
-                                        <li class="item-lead"><a href="#">Gift Ideas</a></li> --}}
-                                        <?php                            
-                                        $categories=DB::table('product_categories')
-                                        ->where('parent_id', null)
-                                        ->get();
-                                       ?>
-                                        @foreach($categories as $category) 
-                                        <?php 
-                                            // skip those categories who has no product.
-                                            $product = Product::orderBy('id', 'desc')->where('category_id', $category->id)->get();	  
-                                            $row_count = $product->count();
-                                            if ($row_count==0) {
-                                                continue;
-                                            }
-                                        ?>
-
-                                        <li><a href="{{URL::to('shop-category')}}/{{$category->id}}">{{$category->name}}</a></li>
-                                        @endforeach
-                                        
-                                    </ul><!-- End .menu-vertical -->
-                                </nav><!-- End .side-nav -->
+                                    @endforeach
+                                    
+                                </ul>
                             </div>
                             <!-- End .dropdown-menu -->
                         </div><!-- End .category-dropdown -->

@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '732883b7c522223e688159f89a90f64b03f32bfd',
+        'reference' => '2eba70bcb8caec5adf0f34b64ab89123ccd58730',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -463,7 +463,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '732883b7c522223e688159f89a90f64b03f32bfd',
+            'reference' => '2eba70bcb8caec5adf0f34b64ab89123ccd58730',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -1387,6 +1387,15 @@
             'aliases' => array(),
             'reference' => '905a22c68b292ffb6f20d7636c36b220d1fba5ae',
             'dev_requirement' => false,
+        ),
+        'theanik/laravel-more-command' => array(
+            'pretty_version' => 'v1.2.0',
+            'version' => '1.2.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../theanik/laravel-more-command',
+            'aliases' => array(),
+            'reference' => 'aab76744edd18f3fdff240bf8bdd08daf9640985',
+            'dev_requirement' => true,
         ),
         'thepinecode/i18n' => array(
             'pretty_version' => 'v1.1.0',
