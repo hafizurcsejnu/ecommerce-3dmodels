@@ -831,6 +831,6 @@ $( document ).ready(function() {
 </script>
 
 </body>
-
+@stack('js')
 
 </html>

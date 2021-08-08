@@ -12,16 +12,22 @@ class ProductController extends Controller
 {
    
   
-    public function shop()
+    public function shop(Request $request)
     {
-      $data = DB::table('products') 
-      ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
-      ->select('products.*', 'product_categories.name as catName')        
-      ->where('products.active', 'on')
-      ->where('products.freebee', null)
-      ->get(); 
+      // $data = DB::table('products') 
+      // ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
+      // ->select('products.*', 'product_categories.name as catName')        
+      // ->where('products.active', 'on')
+      // ->where('products.freebee', null)
+      // ->get(); 
 
-      return view('shop', ['data'=>$data, 'menu'=>'shop']);
+      $data = Product::paginate(20);
+      if($request->ajax()){
+        return response()->json(json_encode($data));
+      }
+      else{
+        return view('shop', ['data'=>$data, 'menu'=>'shop']);
+      }
     }
     public function shopCategory($id)
     {

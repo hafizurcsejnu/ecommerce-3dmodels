@@ -688,7 +688,7 @@ s0.parentNode.insertBefore(s1,s0);
 <script src="{{asset('frontend/js/main.js')}}"></script>
 <script src="{{asset('frontend/js/demos/demo-2.js')}}"></script>
 <script src="{{asset('frontend/js/cart.js')}}"></script>
-
+@stack('js')
 <script>
      // live search start
      $( document ).ready(function() {
