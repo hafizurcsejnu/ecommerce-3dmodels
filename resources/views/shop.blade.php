@@ -394,8 +394,8 @@
             // load more function
             $(document).on('click','.btn-load-more',function(){
                 var count = $(this).data('count');
-                count = count+20;
-                var page = count/20;
+                count = count+4;
+                var page = count/4;
 
                 $.get('?page='+page, function(data, status){
                     var items =  JSON.parse(data).data;

@@ -21,7 +21,7 @@ class ProductController extends Controller
       // ->where('products.freebee', null)
       // ->get(); 
 
-      $data = Product::paginate(20);
+      $data = Product::paginate(4);
       if($request->ajax()){
         return response()->json(json_encode($data));
       }
