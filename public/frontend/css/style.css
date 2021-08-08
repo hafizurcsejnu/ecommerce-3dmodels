@@ -377,7 +377,7 @@ blockquote {
     max-width: calc(60% - 8px); } }
 @media screen and (min-width: 1280px) {
   .container {
-    max-width: 1200px; } }
+    max-width: 1400px; } }
 /* Extend grid - 1600px */
 @media screen and (min-width: 1600px) {
   .container-fluid {
