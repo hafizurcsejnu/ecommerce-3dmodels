@@ -149,9 +149,9 @@
                 </div><!-- End .row -->
             </div><!-- End .product-details-top -->
 
-            <div class="product-details-tab">
+            <div class="container product-details-tab">
                 <ul class="nav nav-pills justify-content-center" role="tablist">
-                    {{-- <li class="nav-item">
+                    {{-- <li class="nav-item"> 
                         <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab" role="tab" aria-controls="product-desc-tab" aria-selected="true">Detail Description</a>
                     </li> --}}
                     <li class="nav-item">
@@ -293,8 +293,8 @@
                 </div><!-- End .tab-content -->
             </div><!-- End .product-details-tab -->
 
-            <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
-            <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow owl-loaded owl-drag" data-toggle="owl" data-owl-options="{
+            <h2 class="title1 text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
+            <div class="container owl-carousel owl-simple carousel-equal-height carousel-with-shadow owl-loaded owl-drag" data-toggle="owl" data-owl-options="{
                     &quot;nav&quot;: false, 
                     &quot;dots&quot;: true,
                     &quot;margin&quot;: 20,
