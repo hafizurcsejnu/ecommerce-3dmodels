@@ -126,12 +126,12 @@
             <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
             <aside class="sidebar-shop sidebar-filter">
                 <div class="sidebar-filter-wrapper">
-                    <form action="" method="get">
+                    <form action="" method="post" id="filter_form">
                         <div class="widget widget-clean">
                             <label><i class="icon-close"></i>Filters</label>
                             <a href="#" class="sidebar-filter-clear">Clean All</a>
                         </div><!-- End .widget -->
-                        <div class="widget widget-collapsible">
+                        <div class="widget widget-collapsible d-none">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
                                     Category
@@ -223,42 +223,42 @@
                                     <div class="filter-items">
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="size-1">
+                                                <input type="checkbox" class="custom-control-input" name="size[]" value="xs" id="size-1">
                                                 <label class="custom-control-label" for="size-1">XS</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="size-2">
+                                                <input type="checkbox" class="custom-control-input" name="size[]" value="s" id="size-2">
                                                 <label class="custom-control-label" for="size-2">S</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" checked="" id="size-3">
+                                                <input type="checkbox" class="custom-control-input" name="size[]" value="m" checked="" id="size-3">
                                                 <label class="custom-control-label" for="size-3">M</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" checked="" id="size-4">
+                                                <input type="checkbox" class="custom-control-input" name="size[]" value="l" checked="" id="size-4">
                                                 <label class="custom-control-label" for="size-4">L</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="size-5">
+                                                <input type="checkbox" class="custom-control-input" name="size[]" value="xl" id="size-5">
                                                 <label class="custom-control-label" for="size-5">XL</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="size-6">
+                                                <input type="checkbox" class="custom-control-input" name="size[]" value="xxl" id="size-6">
                                                 <label class="custom-control-label" for="size-6">XXL</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
@@ -302,49 +302,49 @@
                                     <div class="filter-items">
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-1">
+                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="next" id="brand-1">
                                                 <label class="custom-control-label" for="brand-1">Next</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-2">
+                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="river island" id="brand-2">
                                                 <label class="custom-control-label" for="brand-2">River Island</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-3">
+                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="geox" id="brand-3">
                                                 <label class="custom-control-label" for="brand-3">Geox</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-4">
+                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="new balance" id="brand-4">
                                                 <label class="custom-control-label" for="brand-4">New Balance</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-5">
+                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="ugg" id="brand-5">
                                                 <label class="custom-control-label" for="brand-5">UGG</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-6">
+                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="f&f" id="brand-6">
                                                 <label class="custom-control-label" for="brand-6">F&amp;F</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-7">
+                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="nike" id="brand-7">
                                                 <label class="custom-control-label" for="brand-7">Nike</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
@@ -439,12 +439,74 @@
                         });
                         $('.btn-load-more').data('count',count);
                     }else{
+
                         $('.btn-load-more').css('display',"none");
 
                         $('#status').html("No More Products Available");
                     }
                 });
 
+            });
+
+            // submit filter_form
+
+            $(document).on('submit','#filter_form',function(e){
+                e.preventDefault(); 
+                var form = $(this);
+                url = "{{route('shop')}}";
+                
+                $.get(url,{
+                    filter: form.serialize(),
+                },function(response){
+                    var items =  JSON.parse(response);
+                    var data_status = jQuery.isEmptyObject(items);
+                    if(!data_status){
+                        var all_html = "";
+                        items.forEach(element => {
+                            var html = '<div class="col-6 col-md-4 col-lg-4 col-xl-3"> <div class="product"> <figure class="product-media"> <span class="product-label label-new">:product_status</span> <a href=":product_url"> <img src=":image_src" alt=":image_name" class="product-image"> </a> <div class="product-action action-icon-top"> <a href="javascript:void(0)" class="btn-product btn-cart add-to-cart " data-id=":id"><span class="add-to-cart-btn">Add to cart</span></a> <a href=":quick_view_url" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> </div> </figure> <div class="product-body"> <div class="product-cat"> <a href="#">:cat_name</a> </div> <h3 class="product-title"><a href=":product_url">:name</a></h3> <div class="product-price"> $:price </div> <div class="ratings-container"> <div class="ratings"> <div class="ratings-val" style="width: 0%;"></div> </div> <span class="ratings-text">( 0 Reviews )</span> </div> </div></div></div>';
+                            // time difference 
+                            var start_date= new Date(element.created_at);
+                            var end_date= new Date();
+                            var diff = end_date-start_date;
+                            var days = Math.round(diff/(1000 * 3600 * 24));
+                            
+                            // image
+                            var images = element.images.split('|');
+                            var image_src = "{{asset('images')}}/"+images[0];
+
+
+                            // product url 
+                            var quick_view_url = "{{URL::to('quick-view')}}/"+element.id;
+                            var product_url = "product/"+element.id;
+
+                            // append data to html template
+                            html = html.replace(":id",element.id);
+                            html = html.replace(":name",element.name);
+                            html = html.replace(":image_src",image_src);
+                            html = html.replace(":image_name",images[0]);
+                            html = html.replace(":quick_view_url",quick_view_url);
+                            html = html.replace(":product_url",product_url);
+                            html = html.replace(":price",element.price);
+                            html = html.replace(":cat_name",element.catName);
+                            if(days<7){
+                                html = html.replace(":product_status",element.id);
+                            }
+                            else{
+                                html = html.replace(":product_status","");
+                            }
+
+
+                            $('.sidebar-toggler').click();
+                            all_html = all_html+html;
+                        });
+                        // $('.btn-load-more').data('count',count);
+                        $('.products .row').html(all_html);
+                    }else{
+                        $('.btn-load-more').css('display',"none");
+                        $('.products .row').html("");
+                        $('#status').html("No More Products Available");
+                    }
+                });
             });
         });
     </script>
