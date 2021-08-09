@@ -1,4 +1,6 @@
-
+<?php 
+    use App\Models\DataLookup; 
+?>
 @extends('layouts.master')
 @section('main_content')
 <main class="main">
@@ -131,7 +133,7 @@
                             <label><i class="icon-close"></i>Filters</label>
                             <a href="#" class="sidebar-filter-clear">Clean All</a>
                         </div><!-- End .widget -->
-                        <div class="widget widget-collapsible d-none">
+                        <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
                                     Category
@@ -209,65 +211,8 @@
                             </div><!-- End .collapse -->
                         </div><!-- End .widget -->
 
-                        <div class="widget widget-collapsible">
-                            {{-- <h3 class="widget-title">
-                                <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
-                                    Size
-                                </a>
-                            </h3> --}}
-                            
-                            <!-- End .widget-title -->
-
-                            <div class="collapse show" id="widget-2">
-                                <div class="widget-body">
-                                    <div class="filter-items">
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="size[]" value="xs" id="size-1">
-                                                <label class="custom-control-label" for="size-1">XS</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="size[]" value="s" id="size-2">
-                                                <label class="custom-control-label" for="size-2">S</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="size[]" value="m" checked="" id="size-3">
-                                                <label class="custom-control-label" for="size-3">M</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="size[]" value="l" checked="" id="size-4">
-                                                <label class="custom-control-label" for="size-4">L</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="size[]" value="xl" id="size-5">
-                                                <label class="custom-control-label" for="size-5">XL</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="size[]" value="xxl" id="size-6">
-                                                <label class="custom-control-label" for="size-6">XXL</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-                                    </div><!-- End .filter-items -->
-                                </div><!-- End .widget-body -->
-                            </div><!-- End .collapse -->
-                        </div><!-- End .widget -->
-
-                        {{-- <div class="widget widget-collapsible">
+                     
+                        <div class="widget widget-collapsible d-none">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-3" role="button" aria-expanded="true" aria-controls="widget-3">
                                     Colour
@@ -288,7 +233,7 @@
                                     </div><!-- End .filter-colors -->
                                 </div><!-- End .widget-body -->
                             </div><!-- End .collapse -->
-                        </div><!-- End .widget --> --}}
+                        </div><!-- End .widget -->
 
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
@@ -300,54 +245,16 @@
                             <div class="collapse show" id="widget-4">
                                 <div class="widget-body">
                                     <div class="filter-items">
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="next" id="brand-1">
-                                                <label class="custom-control-label" for="brand-1">Next</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
 
+                                        @php $collection = \App\Models\DataLookup::where('data_type','Brand')->get();  @endphp
+                                        @foreach($collection as $item)
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="river island" id="brand-2">
-                                                <label class="custom-control-label" for="brand-2">River Island</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="geox" id="brand-3">
-                                                <label class="custom-control-label" for="brand-3">Geox</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="new balance" id="brand-4">
-                                                <label class="custom-control-label" for="brand-4">New Balance</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="ugg" id="brand-5">
-                                                <label class="custom-control-label" for="brand-5">UGG</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="f&f" id="brand-6">
-                                                <label class="custom-control-label" for="brand-6">F&amp;F</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="nike" id="brand-7">
-                                                <label class="custom-control-label" for="brand-7">Nike</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
+                                                <input type="checkbox" class="custom-control-input" name="brand[]" value="{{$item->title}}" id="brand-{{$item->id}}">
+                                                <label class="custom-control-label" for="brand-{{$item->id}}">{{$item->title}}</label>
+                                            </div>
+                                        </div>
+                                        @endforeach
 
                                     </div><!-- End .filter-items -->
                                 </div><!-- End .widget-body -->
@@ -394,8 +301,8 @@
             // load more function
             $(document).on('click','.btn-load-more',function(){
                 var count = $(this).data('count');
-                count = count+4;
-                var page = count/4;
+                count = count+8;
+                var page = count/8;
 
                 $.get('?page='+page, function(data, status){
                     var items =  JSON.parse(data).data;
@@ -449,11 +356,10 @@
             });
 
             // submit filter_form
-
             $(document).on('submit','#filter_form',function(e){
                 e.preventDefault(); 
                 var form = $(this);
-                url = "{{route('shop')}}";
+                url = "{{route('3dmodels')}}";
                 
                 $.get(url,{
                     filter: form.serialize(),
@@ -503,11 +409,6 @@
                         $('.products .row').html(all_html);
                     }else{
                         $('.btn-load-more').css('display',"none");
-<<<<<<< HEAD
-                        $('.products .row').html("");
-=======
-
->>>>>>> 13f60471b868a5c2091f2ecf35928e7b14106bd1
                         $('#status').html("No More Products Available");
                     }
                 });

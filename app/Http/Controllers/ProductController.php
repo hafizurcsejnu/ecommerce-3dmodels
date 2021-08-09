@@ -23,7 +23,7 @@ class ProductController extends Controller
       // ->where('products.freebee', null)
       // ->get(); 
 
-      $data = Product::paginate(4);
+      $data = Product::paginate(8);
       if($request->ajax()){
         if($request->has('filter')){
           $form_data = [];

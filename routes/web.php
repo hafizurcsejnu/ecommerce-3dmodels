@@ -45,15 +45,15 @@ Route::get('blog',[BlogController::Class,'index']);
 Route::get('blog/{id}',[BlogController::Class,'show']);
 Route::get('page/{id}',[PageController::Class,'show']);
 
-Route::get('shop',[ProductController::Class,'shop'])->name('shop');
+Route::get('3dmodels',[ProductController::Class,'shop'])->name('3dmodels');
 Route::get('freebies',[ProductController::Class,'freebies'])->name('freebies');
 Route::get('services', function () {
     return view('services'); 
 });
 
 
-Route::get('shop-category/{id}',[ProductController::Class,'shopCategory']);
-Route::get('shop-subcategory/{id}',[ProductController::Class,'shopSubCategory']);
+Route::get('3dmodels-category/{id}',[ProductController::Class,'shopCategory']);
+Route::get('3dmodels-subcategory/{id}',[ProductController::Class,'shopSubCategory']);
 Route::get('quick-view/{id}',[ProductController::Class,'quickView']); 
 
 Route::get('product/{id}',[ProductController::Class,'show']);

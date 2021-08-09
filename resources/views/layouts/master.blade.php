@@ -80,7 +80,7 @@ $total = 0
                 </div><!-- End .container -->
             </div><!-- End .header-top -->
 
-            <div class="header-middle d-none">
+            <div class="header-middle">
                 <div class="container">
                     <div class="header-left">
                         <button class="mobile-menu-toggler">
@@ -228,7 +228,7 @@ $total = 0
                                     @php $categories = App\Traits\CategoryTrait::getCategories(); @endphp
                                     @foreach($categories as $category)
                                         <li>
-                                            <a class="dropdown-item" href="{{URL::to('shop-category')}}/{{$category->id}}">
+                                            <a class="dropdown-item" href="{{URL::to('3dmodels-category')}}/{{$category->id}}">
                                                 {{$category->name}}
                                                 @if(count($category->children)>0) &raquo; @endif
                                             </a>
@@ -236,7 +236,7 @@ $total = 0
                                             <ul class="dropdown-menu dropdown-submenu">
                                                 @foreach($category->children as $subcat)
                                                 <li>
-                                                    <a class="dropdown-item" href="{{URL::to('shop-category')}}/{{$subcat->id}}">{{$subcat->name}}</a>
+                                                    <a class="dropdown-item" href="{{URL::to('3dmodels-category')}}/{{$subcat->id}}">{{$subcat->name}}</a>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -263,6 +263,7 @@ $total = 0
                             ?>
 
                             <ul class="menu sf-arrows">                              
+                                <li class="@if($menu == 'shop') active @endif"><a class="nav-link" href="{{URL::to('/3dmodels')}}">3D Mmodels</a></li>
                                 <li class="@if($menu == 'freebies') active @endif"><a class="nav-link" href="{{URL::to('/freebies')}}">FreeBies</a></li>
                                 <li class="@if($menu == 'services') active @endif"><a class="nav-link" href="{{URL::to('/services')}}">Custom 3D Service</a></li>
                                 
