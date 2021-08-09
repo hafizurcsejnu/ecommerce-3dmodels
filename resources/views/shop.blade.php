@@ -503,7 +503,11 @@
                         $('.products .row').html(all_html);
                     }else{
                         $('.btn-load-more').css('display',"none");
+<<<<<<< HEAD
                         $('.products .row').html("");
+=======
+
+>>>>>>> 13f60471b868a5c2091f2ecf35928e7b14106bd1
                         $('#status').html("No More Products Available");
                     }
                 });
