@@ -23,13 +23,13 @@ class ProductController extends Controller
       // ->where('products.freebee', null)
       // ->get(); 
 
-      $data = Product::paginate(8);
+      $data = Product::paginate(20);
       if($request->ajax()){
         if($request->has('filter')){
           $form_data = [];
           parse_str($request->filter, $form_data);
           $query = Product::query();
-          if(count($form_data["size"])>0){
+          if(array_key_exists("size",$form_data) && count($form_data["size"])>0){
             // foreach($form_data->size as $key => $size){
             //   if($key==0){
             //     $query->where('size',$size);
@@ -47,6 +47,36 @@ class ProductController extends Controller
               }
             }
           }
+
+          if(count($form_data["materials"])>0){
+            foreach($form_data["materials"] as $key => $materials){
+              if($key==0){
+                $query->where('materials',$materials);
+              }else{
+                $query->orWhere('materials',$materials);
+              }
+            }
+          }
+          if(count($form_data["style"])>0){
+            foreach($form_data["style"] as $key => $style){
+              if($key==0){
+                $query->where('style',$style);
+              }else{
+                $query->orWhere('style',$style);
+              }
+            }
+          }
+
+          if(count($form_data["usage"])>0){
+            foreach($form_data["usage"] as $key => $usage){
+              if($key==0){
+                $query->where('usage',$usage);
+              }else{
+                $query->orWhere('usage',$usage);
+              }
+            }
+          }
+          
           return response()->json(json_encode($query->get()));
         }
         return response()->json(json_encode($data));

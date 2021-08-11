@@ -80,7 +80,7 @@ $total = 0
                 </div><!-- End .container -->
             </div><!-- End .header-top -->
 
-            <div class="header-middle">
+            <div class="d-none header-middle">
                 <div class="container">
                     <div class="header-left">
                         <button class="mobile-menu-toggler">
@@ -267,19 +267,7 @@ $total = 0
                                 <li class="@if($menu == 'freebies') active @endif"><a class="nav-link" href="{{URL::to('/freebies')}}">FreeBies</a></li>
                                 <li class="@if($menu == 'services') active @endif"><a class="nav-link" href="{{URL::to('/services')}}">Custom 3D Service</a></li>
                                 
-                            <?php 
-                            if(Session::get('user')) {?>                              
-                                {{-- <li aria-haspopup="true"><a href="{{url('my-account')}}">My Account</a></li> --}}
-                                <li class="@if($menu == 'my-account') active @endif">
-                                    <a href="{{url('my-account')}}" class="sf-with-ul">My Account</a>
-                                    <ul style="display: none;">
-                                        <li><a href="{{url('my-account')}}">My Orders</a></li>
-                                        <li><a href="{{url('my-wishlist')}}">My Wishlist</a></li>
-                                        <li><a href="{{url('logout')}}">Logout</a></li>
-                                    </ul>
-                                </li>
-                               
-                            <?php }?>   
+                           
                             
                             <li>
                                
@@ -301,21 +289,30 @@ $total = 0
                         
                         <div class="account">                           
                             <?php 
-                                if (Session::get('user')) {?>   
-                                    <a href="{{URL::to('/logout')}}">  
+                            if(Session::get('user')) {?>  
+                              
+                                <div class="dropdown cart-dropdown">
+                                    <a href="javascript:void(0)" class="dropdown-toggle" role="button" data-toggle="dropdown1" aria-haspopup="true" aria-expanded="false" data-display="static">
                                         <div class="icon">
-                                        <i class="icon-user"></i>
-                                    </div>
-                                    <p>My account</p>
-                                    </a>
-                                <?php }else{?>
-                                    <a href="{{url('login')}}" target="_blank">    
-                                        <div class="icon">
-                                            <i class="icon-user"></i>
+                                            <i class="icon-user"></i>                                           
                                         </div>
                                         <p>My Account</p>
                                     </a>
-                            <?php } ?>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="{{URL::to('my-account')}}">My Orders</a>
+                                        <a class="dropdown-item" href="{{URL::to('my-wishlist')}}">My Wishlist</a>
+                                        <a class="dropdown-item" href="{{URL::to('logout')}}">Logout</a>
+                                        </div>
+                                </div>                  
+                               
+                            <?php } else{?>   
+                                <a href="{{URL::to('login')}}" role="button">
+                                    <div class="icon">
+                                        <i class="icon-user"></i>                                           
+                                    </div>
+                                    <p>My Account</p>
+                                </a>
+                            <?php }?>   
                         
                         
                         <div class="dropdown cart-dropdown">
