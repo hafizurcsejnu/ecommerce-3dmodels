@@ -29,7 +29,7 @@ class ProductController extends Controller
           $form_data = [];
           parse_str($request->filter, $form_data);
           $query = Product::query();
-          if(array_key_exists("size",$form_data) && count($form_data["size"])>0){
+          if(array_key_exists("size", $form_data) && count($form_data["size"])>0){
             // foreach($form_data->size as $key => $size){
             //   if($key==0){
             //     $query->where('size',$size);
