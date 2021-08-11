@@ -254,14 +254,24 @@
             // load more function
             $(document).on('click','.btn-load-more',function(){
                 var count = $(this).data('count');
+                var loaded_item = count;
+                var form = $("#filter_form");
                 count = count+20;
                 var page = count/20;
 
-                $.get('?page='+page, function(data, status){
-                    var items =  JSON.parse(data).data;
+                $.get('?page='+page,{
+                    filter: form.serialize(),
+                },function(data, status){
+                    var items =  JSON.parse(data.items);
+                    console.log(items);
+                    if (!Array.isArray(items)) {
+                        items = items.data;
+                    } 
                     var data_status = jQuery.isEmptyObject(items);
+                    
                     if(!data_status){
                         items.forEach(element => {
+                            loaded_item = loaded_item+1;
                             var html = '<div class="col-6 col-md-4 col-lg-4 col-xl-3"> <div class="product"> <figure class="product-media"> <span class="product-label label-new">:product_status</span> <a href=":product_url"> <img src=":image_src" alt=":image_name" class="product-image"> </a> <div class="product-action action-icon-top"> <a href="javascript:void(0)" class="btn-product btn-cart add-to-cart " data-id=":id"><span class="add-to-cart-btn">Add to cart</span></a> <a href=":quick_view_url" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> </div> </figure> <div class="product-body"> <div class="product-cat"> <a href="#">:cat_name</a> </div> <h3 class="product-title"><a href=":product_url">:name</a></h3> <div class="product-price"> $:price </div> <div class="ratings-container"> <div class="ratings"> <div class="ratings-val" style="width: 0%;"></div> </div> <span class="ratings-text">( 0 Reviews )</span> </div> </div></div></div>';
                             // time difference 
                             var start_date= new Date(element.created_at);
@@ -286,7 +296,13 @@
                             html = html.replace(":quick_view_url",quick_view_url);
                             html = html.replace(":product_url",product_url);
                             html = html.replace(":price",element.price);
-                            html = html.replace(":cat_name",element.catName);
+                            if(element.sub_category!=null){
+                                html = html.replace(":cat_name",element.sub_category.name);
+                            }else if(element.category!=null){
+                                html = html.replace(":cat_name",element.category.name);
+                            }else{
+                                html = html.replace(":cat_name","");
+                            }
                             if(days<7){
                                 html = html.replace(":product_status",element.id);
                             }
@@ -298,6 +314,7 @@
                             $('.products .row').append(html);
                         });
                         $('.btn-load-more').data('count',count);
+                        $('#show_count').html(loaded_item);
                     }else{
 
                         $('.btn-load-more').css('display',"none");
@@ -312,16 +329,24 @@
             $(document).on('submit','#filter_form',function(e){
                 e.preventDefault(); 
                 var form = $(this);
-                url = "{{route('3dmodels')}}";
+                var loaded_item = 0;
+                url = "{{url()->current()}}";
                 
                 $.get(url,{
                     filter: form.serialize(),
                 },function(response){
-                    var items =  JSON.parse(response);
+                    var items =  JSON.parse(response.items);
+                    if (!Array.isArray(items)) {
+                        items = items.data;
+                    } 
                     var data_status = jQuery.isEmptyObject(items);
                     if(!data_status){
                         var all_html = "";
                         items.forEach(element => {
+                            if(response.total<20){
+                                loaded_item = response.total;
+                            }
+                            loaded_item = loaded_item+1;
                             var html = '<div class="col-6 col-md-4 col-lg-4 col-xl-3"> <div class="product"> <figure class="product-media"> <span class="product-label label-new">:product_status</span> <a href=":product_url"> <img src=":image_src" alt=":image_name" class="product-image"> </a> <div class="product-action action-icon-top"> <a href="javascript:void(0)" class="btn-product btn-cart add-to-cart " data-id=":id"><span class="add-to-cart-btn">Add to cart</span></a> <a href=":quick_view_url" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> </div> </figure> <div class="product-body"> <div class="product-cat"> <a href="#">:cat_name</a> </div> <h3 class="product-title"><a href=":product_url">:name</a></h3> <div class="product-price"> $:price </div> <div class="ratings-container"> <div class="ratings"> <div class="ratings-val" style="width: 0%;"></div> </div> <span class="ratings-text">( 0 Reviews )</span> </div> </div></div></div>';
                             // time difference 
                             var start_date= new Date(element.created_at);
@@ -346,7 +371,13 @@
                             html = html.replace(":quick_view_url",quick_view_url);
                             html = html.replace(":product_url",product_url);
                             html = html.replace(":price",element.price);
-                            html = html.replace(":cat_name",element.catName);
+                            if(element.sub_category!=null){
+                                html = html.replace(":cat_name",element.sub_category.name);
+                            }else if(element.category!=null){
+                                html = html.replace(":cat_name",element.category.name);
+                            }else{
+                                html = html.replace(":cat_name","");
+                            }
                             if(days<7){
                                 html = html.replace(":product_status",element.id);
                             }
@@ -355,15 +386,56 @@
                             }
 
 
-                            $('.sidebar-toggler').click();
+                            $('.close-filter').click();
                             all_html = all_html+html;
                         });
                         // $('.btn-load-more').data('count',count);
                         $('.products .row').html(all_html);
+                        $("#show_count").html(loaded_item);
+                        $("#total").html(response.total);
+                        
                     }else{
+                        $("#show_count").html("0");
+                        $("#total").html("0");
+                        $('.products .row').html("");
                         $('.btn-load-more').css('display',"none");
                         $('#status').html("No More Products Available");
                     }
+                    var response_form_data = response.form_data;
+                    if(response_form_data.hasOwnProperty('materials')){
+                        $("#materials").html("Materials");
+                        var list = "";
+                        response.form_data.materials.forEach(element=>{
+                            list = list+"<span>"+element+"</span>";
+                        })
+                        $("#materials-list").html(list);
+                    }
+                    if(response_form_data.hasOwnProperty('brand')){
+                        $("#brand").html("Brand");
+                        var list = "";
+                        response.form_data.brand.forEach(element=>{
+                            list = list+"<span>"+element+"</span>";
+                        })
+                        $("#brand-list").html(list);
+                    }
+                    if(response_form_data.hasOwnProperty('style')){
+                        $("#style").html("Style");
+                        var list = "";
+                        response.form_data.style.forEach(element=>{
+                            list = list+"<span>"+element+"</span>";
+                        })
+                        $("#style-list").html(list);
+                    }
+                    if(response_form_data.hasOwnProperty('usages')){
+                        $("#usages").html("Usages");
+                        var list = "";
+                        response.form_data.usages.forEach(element=>{
+                            list = list+"<span>"+element+"</span>";
+                        })
+                        $("#usages-list").html(list);
+                    }
+                    $('.filter-data-list').slideDown(1000);
+
                 });
             });
             $(document).on('click','.close-filter',function(){

@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Traits\CategoryTrait;
+use App\Models\ProductCategory;
 use DB;
 
 
@@ -24,11 +25,12 @@ class ProductController extends Controller
       // ->get(); 
 
       $data = Product::paginate(20);
+      $total = Product::count();
       if($request->ajax()){
+        $query = Product::query()->with('category');
         if($request->has('filter')){
           $form_data = [];
           parse_str($request->filter, $form_data);
-          $query = Product::query();
           if(array_key_exists("size", $form_data) && count($form_data["size"])>0){
             // foreach($form_data->size as $key => $size){
             //   if($key==0){
@@ -38,7 +40,7 @@ class ProductController extends Controller
             //   }
             // }
           }
-          if(count($form_data["brand"])>0){
+          if(array_key_exists("brand", $form_data) && count($form_data["brand"])>0){
             foreach($form_data["brand"] as $key => $brand){
               if($key==0){
                 $query->where('brand',$brand);
@@ -48,7 +50,7 @@ class ProductController extends Controller
             }
           }
 
-          if(count($form_data["materials"])>0){
+          if(array_key_exists("materials", $form_data) && count($form_data["materials"])>0){
             foreach($form_data["materials"] as $key => $materials){
               if($key==0){
                 $query->where('materials',$materials);
@@ -57,7 +59,7 @@ class ProductController extends Controller
               }
             }
           }
-          if(count($form_data["style"])>0){
+          if(array_key_exists("style", $form_data) && count($form_data["style"])>0){
             foreach($form_data["style"] as $key => $style){
               if($key==0){
                 $query->where('style',$style);
@@ -67,7 +69,7 @@ class ProductController extends Controller
             }
           }
 
-          if(count($form_data["usages"])>0){
+          if(array_key_exists("usages", $form_data) && count($form_data["usages"])>0){
             foreach($form_data["usages"] as $key => $usages){
               if($key==0){
                 $query->where('usages',$usages);
@@ -77,28 +79,97 @@ class ProductController extends Controller
             }
           }
           
-          return response()->json(json_encode($query->get()));
+          return response()->json(["total"=>$query->count(),"items"=>json_encode($query->paginate(20)),"form_data"=>$form_data]);
         }
         return response()->json(json_encode($data));
       }
       else{
-        return view('shop', ['data'=>$data, 'menu'=>'shop','categories'=>$categories]);
+        return view('shop', ['data'=>$data, 'menu'=>'shop','categories'=>$categories,'total'=>$total]);
       }
     }
-    public function shopCategory($id)
+    public function shopCategory(Request $request,$id)
     {
-      $data = DB::table('products')
-      ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
-      ->select('products.*', 'product_categories.name as catName')        
-      ->where('products.category_id', $id)
-      ->orWhere('products.sub_category_id', $id)
-      ->where('products.active', 'on')
-      ->where('products.is_set', null)
-      ->where('products.freebee', null)
-      ->get(); 
+      // $data = DB::table('products')
+      // ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
+      // ->select('products.*', 'product_categories.name as catName')        
+      // ->where('products.category_id', $id)
+      // ->orWhere('products.sub_category_id', $id)
+      // ->where('products.active', 'on')
+      // ->where('products.is_set', null)
+      // ->where('products.freebee', null)
+      // ->get(); 
+      $data = Product::where("category_id",$id)
+                        ->orWhere("sub_category_id",$id)
+                        ->where('active','on')
+                        ->where('freebee',null)
+                        ->where('is_set',null)
+                        ->with('category','sub_category');
+      $category_name = ProductCategory::where('id',$id)->pluck('name')[0];
       $total = $data->count();
+      $data = $data->paginate(20);
+      if($request->ajax()){
+        $query = Product::query()->with('category');
+        $query->where('category_id',$id)->where('active','on')->where('freebee',null)->where('is_set',null)->orWhere('sub_category_id',$id);
+        if($request->has('filter')){
+          $form_data = [];
+          parse_str($request->filter, $form_data);
 
-      return view('shop_category', ['data'=>$data, 'menu'=>'shop']);
+          if(array_key_exists("size", $form_data) && count($form_data["size"])>0){
+            // foreach($form_data->size as $key => $size){
+            //   if($key==0){
+            //     $query->where('size',$size);
+            //   }else{
+            //     $query->orWhere('size',$size);
+            //   }
+            // }
+          }
+          if(array_key_exists("brand", $form_data) && count($form_data["brand"])>0){
+            foreach($form_data["brand"] as $key => $brand){
+              if($key==0){
+                $query->where('brand',$brand);
+              }else{
+                $query->orWhere('brand',$brand);
+              }
+            }
+          }
+
+          if(array_key_exists("materials", $form_data) && count($form_data["materials"])>0){
+            foreach($form_data["materials"] as $key => $materials){
+              if($key==0){
+                $query->where('materials',$materials);
+              }else{
+                $query->orWhere('materials',$materials);
+              }
+            }
+          }
+          if(array_key_exists("style", $form_data) && count($form_data["style"])>0){
+            foreach($form_data["style"] as $key => $style){
+              if($key==0){
+                $query->where('style',$style);
+              }else{
+                $query->orWhere('style',$style);
+              }
+            }
+          }
+
+          if(array_key_exists("usages", $form_data) && count($form_data["usages"])>0){
+            foreach($form_data["usages"] as $key => $usages){
+              if($key==0){
+                $query->where('usages',$usages);
+              }else{
+                $query->orWhere('usages',$usages);
+              }
+            }
+          }
+          
+          return response()->json(["total"=>$query->count(),"items"=>json_encode($query->paginate(20)),"form_data"=>$form_data]);
+        }
+        return response()->json(json_encode($data));
+      }
+      else{
+
+        return view('shop_category', ['data'=>$data, 'menu'=>'shop','total'=>$total,'category'=>$category_name]);
+      }
     }
     public function freebies()
     {

@@ -1,4 +1,32 @@
  <!-- filter link -->
+
+ <div class="row filter-data-list" style="display:none">
+    <div class="col">
+        <label for="" id="materials"></label><br/>
+        <div id="materials-list">
+
+        </div>
+    </div>
+    <div class="col">
+        <label for="" id="brand"></label><br/>
+        <div id="brand-list">
+
+        </div>
+    </div>
+    <div class="col">
+        <label for="" id="style"></label><br/>
+        <div id="style-list">
+
+        </div>
+    </div>
+    <div class="col">
+        <label for="" id="usages"></label><br/>
+        <div id="usages-list">
+
+        </div>
+    </div>
+ </div>
+ 
  <div class="d-none1 toolbox">
     <div class="toolbox-left">
         <a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
@@ -9,7 +37,9 @@
             Showing <span>12 of 56</span> Models
         </div>
     </div> -->
-
+    <div class="toolbox-center">
+        <p>Showing <strong id="show_count">20</strong> of <strong id="total">{{$total}}</strong> products</p>
+    </div>
     <div class="toolbox-right">
         <div class="toolbox-sort">
             <label for="sortby">Sort by:</label>

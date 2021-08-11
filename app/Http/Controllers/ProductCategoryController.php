@@ -55,6 +55,7 @@ class ProductCategoryController extends Controller
         return redirect()->back()->with(session()->flash('alert-success', 'Data has been deleted successfully.'));
     }
 
+
     
     
 }
