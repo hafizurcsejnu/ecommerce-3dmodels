@@ -67,12 +67,12 @@ class ProductController extends Controller
             }
           }
 
-          if(count($form_data["usage"])>0){
-            foreach($form_data["usage"] as $key => $usage){
+          if(count($form_data["usages"])>0){
+            foreach($form_data["usages"] as $key => $usages){
               if($key==0){
-                $query->where('usage',$usage);
+                $query->where('usages',$usages);
               }else{
-                $query->orWhere('usage',$usage);
+                $query->orWhere('usages',$usages);
               }
             }
           }

@@ -162,6 +162,7 @@
                             </div><!-- End .collapse -->
                         </div><!-- End .widget -->
 
+                      
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-6" role="button" aria-expanded="true" aria-controls="widget-6">
@@ -191,7 +192,7 @@
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-7" role="button" aria-expanded="true" aria-controls="widget-7">
-                                    Usage
+                                    Usages
                                 </a>
                             </h3>
 
@@ -203,8 +204,8 @@
                                         @foreach($collection as $item)
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="usage[]" value="{{$item->title}}" id="usage-{{$item->id}}">
-                                                <label class="custom-control-label" for="usage-{{$item->id}}">{{$item->title}}</label>
+                                                <input type="checkbox" class="custom-control-input" name="usages[]" value="{{$item->title}}" id="usages-{{$item->id}}">
+                                                <label class="custom-control-label" for="usages-{{$item->id}}">{{$item->title}}</label>
                                             </div>
                                         </div>
                                         @endforeach
