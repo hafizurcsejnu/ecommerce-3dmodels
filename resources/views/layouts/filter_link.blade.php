@@ -1,6 +1,6 @@
  <!-- filter link -->
 
- <div class="row filter-data-list" style="display:none">
+ <div class="d-none row filter-data-list" style="display:none">
     <div class="col">
         <label for="" id="materials"></label><br/>
         <div id="materials-list">
@@ -25,7 +25,7 @@
 
         </div>
     </div>
- </div>
+ </div> 
  
  <div class="d-none1 toolbox">
     <div class="toolbox-left">
@@ -38,7 +38,8 @@
         </div>
     </div> -->
     <div class="toolbox-center">
-        <p>Showing <strong id="show_count">20</strong> of <strong id="total">{{$total}}</strong> products</p>
+        {{-- <p>Showing <strong id="show_count"></strong> of <strong id="total">{{$total}}</strong> products</p> --}}
+        <p>Total <strong id="total">{{$total}}</strong> products</p>
     </div>
     <div class="toolbox-right">
         <div class="toolbox-sort">

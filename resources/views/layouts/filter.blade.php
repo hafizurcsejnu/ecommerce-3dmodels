@@ -113,11 +113,13 @@
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">
-                                    Materials
+                                    @php $collection = \App\Models\DataLookup::where('data_type','Materials')->get();  @endphp
+                                    Materials ({{count($collection)}})
+                                    
                                 </a>
                             </h3><!-- End .widget-title -->
 
-                            <div class="collapse show" id="widget-5">
+                            <div class="collapse hide" id="widget-5">
                                 <div class="widget-body">
                                     <div class="filter-items">
 
@@ -139,11 +141,12 @@
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
-                                    Brand
+                                    @php $collection = \App\Models\DataLookup::where('data_type','Brand')->get();  @endphp
+                                    Brand ({{count($collection)}})
                                 </a>
                             </h3><!-- End .widget-title -->
 
-                            <div class="collapse show" id="widget-4">
+                            <div class="collapse hide" id="widget-4">
                                 <div class="widget-body">
                                     <div class="filter-items">
 
@@ -166,7 +169,8 @@
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-6" role="button" aria-expanded="true" aria-controls="widget-6">
-                                    Style
+                                    @php $collection = \App\Models\DataLookup::where('data_type','Style')->get();  @endphp
+                                    Style ({{count($collection)}})
                                 </a>
                             </h3>
 
@@ -189,10 +193,11 @@
                             </div>
                         </div><!-- End .widget -->
 
-                        <div class="widget widget-collapsible">
+                        <div class="widget widget-collapsible" style="border-bottom: .1rem solid #fff;">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-7" role="button" aria-expanded="true" aria-controls="widget-7">
-                                    Usages
+                                    @php $collection = \App\Models\DataLookup::where('data_type','Usage')->get();  @endphp
+                                    Usages ({{count($collection)}})
                                 </a>
                             </h3>
 
@@ -202,7 +207,7 @@
 
                                         @php $collection = \App\Models\DataLookup::where('data_type','Usage')->get();  @endphp
                                         @foreach($collection as $item)
-                                        <div class="filter-item">
+                                        <div class="filter-item" style="width: 50%; float: left;">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="usages[]" value="{{$item->title}}" id="usages-{{$item->id}}">
                                                 <label class="custom-control-label" for="usages-{{$item->id}}">{{$item->title}}</label>
@@ -238,7 +243,7 @@
                         </div><!-- End .widget --> --}}
 
                         <div>
-                            <button type="submit" class="btn btn-outline-primary-2 btn-minwidth-sm w-100">Search</button>
+                            <button type="submit" class="btn btn-outline-primary-2 btn-minwidth-sm w-100">Filter Models</button>
                         </div>
                     </form>
                 </div><!-- End .sidebar-filter-wrapper -->
@@ -256,8 +261,8 @@
                 var count = $(this).data('count');
                 var loaded_item = count;
                 var form = $("#filter_form");
-                count = count+20;
-                var page = count/20;
+                count = count+30;
+                var page = count/30;
 
                 $.get('?page='+page,{
                     filter: form.serialize(),
@@ -343,10 +348,12 @@
                     if(!data_status){
                         var all_html = "";
                         items.forEach(element => {
-                            if(response.total<20){
+                            if(response.total<30){ 
                                 loaded_item = response.total;
+                            } 
+                            else{
+                                loaded_item = loaded_item+1;
                             }
-                            loaded_item = loaded_item+1;
                             var html = '<div class="col-6 col-md-4 col-lg-4 col-xl-3"> <div class="product"> <figure class="product-media"> <span class="product-label label-new">:product_status</span> <a href=":product_url"> <img src=":image_src" alt=":image_name" class="product-image"> </a> <div class="product-action action-icon-top"> <a href="javascript:void(0)" class="btn-product btn-cart add-to-cart " data-id=":id"><span class="add-to-cart-btn">Add to cart</span></a> <a href=":quick_view_url" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> </div> </figure> <div class="product-body"> <div class="product-cat"> <a href="#">:cat_name</a> </div> <h3 class="product-title"><a href=":product_url">:name</a></h3> <div class="product-price"> $:price </div> <div class="ratings-container"> <div class="ratings"> <div class="ratings-val" style="width: 0%;"></div> </div> <span class="ratings-text">( 0 Reviews )</span> </div> </div></div></div>';
                             // time difference 
                             var start_date= new Date(element.created_at);

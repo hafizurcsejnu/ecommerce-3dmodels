@@ -2,19 +2,17 @@
 @extends('layouts.master')
 @section('main_content')
 <main class="main">
-    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0 d-none">
         <div class="container d-flex align-items-center">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{URL::to('/')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{URL::to('/shop')}}">Products</a></li>
+                <li class="breadcrumb-item"><a href="{{URL::to('/3dmodels')}}">Products</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{$item->name}}</li>
-            </ol>           
-            
-            <!-- End .pager-nav -->
+            </ol>             
         </div><!-- End .container -->
     </nav><!-- End .breadcrumb-nav -->
 
-    <div class="page-content">
+    <div class="page-content mt-3">
         <div class="container">
             <div class="product-details-top mb-2">
                 <div class="row">
@@ -37,18 +35,18 @@
                                     </a>
                                 </figure><!-- End .product-main-image -->
 
-                                <div id="product-zoom-gallery" class="product-image-gallery">
-
-                               
+                                <div id="product-zoom-gallery" class="product-image-gallery" style="overflow-y: scroll;overflow-x:hidden; direction: rtl; height:380px;">
+                                    <div class="scroll_bar_inside" style="direction: ltr;">                               
                                <?php 
-                               for ($i=0; $i<count($images) && $i<6; $i++) 
+                               for ($i=0; $i<count($images) && $i<10; $i++) 
                                {  
                                ?>
-                                    <a class="product-gallery-item <?php if($i==0) echo "active";?>" href="#" data-image="{{asset('images')}}/{{$images[$i]}}" data-zoom-image="{{asset('images')}}/{{$images[$i]}}">
-                                        <img src="{{asset('images')}}/{{$images[$i]}}" alt="product side">
+                                    <a class="product-gallery-item <?php if($i==0) echo "active";?>" href="#" data-image="{{asset('images')}}/{{$images[$i]}}" data-zoom-image="{{asset('images')}}/{{$images[$i]}}" style="direction:ltr;">
+                                        <img src="{{asset('images')}}/{{$images[$i]}}" alt="product thumnail">
                                     </a>
                                 <?php } ?>
 
+                                </div>
                                 </div>
                                <?php } else{?>
                                 <style>
@@ -108,6 +106,8 @@
                                 <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
                             </div><!-- End .details-filter-row --> --}}
 
+                            @if ($item->freebee != 'on')                          
+
                             <div class="product-details-action">
                                 <a href="javascript:void(0)" class="btn-product btn-cart addToCart" data-id="{{$item->id}}"><span>Add to cart</span></a>
                             </div>
@@ -119,7 +119,43 @@
                                 @else
                                     <a href="{{url('login')}}" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
                                 @endif                                
-                            </div>
+                            </div>  
+                            @else
+
+                            <style>
+                                .freebees_download a {
+                                        padding: 8px;
+                                        margin: 5px;
+                                }
+                            </style>
+                            <div class="freebees_download">
+                                <?php 
+                                if($item->source_max != null){
+                                   echo '<a href="/download/'.$item->id.'/source_max" 
+                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-circle btn-primary"> Max </a>';
+                                 }
+                               
+                                if($item->source_fbx != null){
+                                   echo '<a href="/download/'.$item->id.'/source_fbx" 
+                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-circle btn-primary"> FBX </a>';
+                                 }
+                                if($item->source_obj != null){
+                                   echo '<a href="/download/'.$item->id.'/source_obj" 
+                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-circle btn-primary"> OBJ </a>';
+                                 }
+                                if($item->source_blend != null){
+                                   echo '<a href="/download/'.$item->id.'/source_blend" 
+                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-circle btn-primary"> Blend </a>';
+                                 }
+                                 if($item->source_c4d != null){
+                                   echo '<a href="/download/'.$item->id.'/source_c4d" 
+                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-circle btn-primary"> C4D </a>';
+                                 }
+                              
+                                 ?>
+                            </div>                                
+                            @endif
+
                                 
                             </div><!-- End .product-details-action -->
 
@@ -131,7 +167,7 @@
                                             ->where('id', $item->category_id)
                                             ->first(); 
                                     ?>
-                                    <a href="shop-category/{{$category->id}}">{{$category->name}}</a>
+                                    <a href="3dmodels-category/{{$category->id}}">{{$category->name}}</a>
                                 </div>
                                 
 
@@ -363,8 +399,8 @@
                             @else
                                 <a href="{{url('login')}}" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
                             @endif
-
-                        </div><!-- End .product-action -->
+                        </div>
+                        <!-- End .product-action -->
                         
 
                     </figure><!-- End .product-media -->
@@ -421,7 +457,7 @@
             var id = $(this).data('id');
 
             $.ajax({
-            url:"add-to-wishlist",
+            url:"{{route('add-to-wishlist')}}",
             data: {
                 _token: '{{csrf_token()}}',
                 id: id
@@ -437,39 +473,11 @@
                 else{
                   var string = '<p class="alert alert-danger">'+response.data+'</p>';
                    $('#message').html(string);  
-                }               
+                }                
             }
             });
         });
-    // wishlist end
-
-    // wishlist class start
-        $('.addToWishlist').click(function (event){  
-            event.preventDefault();            
-            var id = $(this).data('id');
-                            
-            $.ajax({
-            url:"add-to-wishlist",
-            data: {
-                _token: '{{csrf_token()}}',
-                id: id
-            },
-            type: 'POST',
-            success: function(response){           
-
-                if(response.success==true){  
-                   var string = '<p class="alert alert-success">'+response.data+'</p>';
-                   $('#message'+response.product_id+'').html(string);
-                   console.log(response.product_id); 
-                }
-                else{
-                  var string = '<p class="alert alert-danger">'+response.data+'</p>';
-                  $('#message'+response.product_id+'').html(string);
-                }               
-            }
-            });
-        });
-    // wishlist end
+        // wishlist end
 });
 </script>
 @endsection

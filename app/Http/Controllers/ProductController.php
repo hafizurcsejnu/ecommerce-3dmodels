@@ -19,12 +19,12 @@ class ProductController extends Controller
       $categories = $this->getCategories();
       // $data = DB::table('products') 
       // ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
-      // ->select('products.*', 'product_categories.name as catName')        
+      // ->select('products.*', 'product_categories.name as catName', 'product_categories.id as catId')        
       // ->where('products.active', 'on')
       // ->where('products.freebee', null)
       // ->get(); 
 
-      $data = Product::paginate(20);
+      $data = Product::paginate(30);
       $total = Product::count();
       if($request->ajax()){
         $query = Product::query()->with('category');
@@ -67,7 +67,7 @@ class ProductController extends Controller
                 $query->orWhere('style',$style);
               }
             }
-          }
+          } 
 
           if(array_key_exists("usages", $form_data) && count($form_data["usages"])>0){
             foreach($form_data["usages"] as $key => $usages){
@@ -84,7 +84,7 @@ class ProductController extends Controller
         return response()->json(json_encode($data));
       }
       else{
-        return view('shop', ['data'=>$data, 'menu'=>'shop','categories'=>$categories,'total'=>$total]);
+        return view('shop', ['data'=>$data, 'menu'=>'shop','categories'=>$categories, 'total'=>$total]);
       }
     }
     public function shopCategory(Request $request,$id)
@@ -175,7 +175,7 @@ class ProductController extends Controller
     {
       $data = DB::table('products')
       ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
-      ->select('products.*', 'product_categories.name as catName')  
+      ->select('products.*', 'product_categories.name as catName', 'product_categories.id as catId')  
       ->where('products.active', 'on')
       ->where('products.is_set', null)
       ->where('products.freebee', 'on')
@@ -188,7 +188,7 @@ class ProductController extends Controller
     {
       $data = DB::table('products')
       ->join('product_categories', 'products.sub_category_id', '=', 'product_categories.id')
-      ->select('products.*', 'product_categories.name as catName')        
+      ->select('products.*', 'product_categories.name as catName', 'product_categories.id as catId')        
       ->where('products.sub_category_id', $id)
       ->where('products.active', 'on')
       ->where('products.is_set', null)
@@ -204,7 +204,7 @@ class ProductController extends Controller
       //$data = Product::orderBy('id', 'desc')->get();
       $data = DB::table('products')
         ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
-        ->select('products.*', 'product_categories.name as catName')        
+        ->select('products.*', 'product_categories.name as catName', 'product_categories.id as catId')        
         ->where('products.active', 'on')
         ->get(); 
 
@@ -230,20 +230,40 @@ class ProductController extends Controller
     {      
       $data = DB::table('products')
       ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
-      ->select('products.*', 'product_categories.name as catName')        
+      ->select('products.*', 'product_categories.name as catName', 'product_categories.id as catId')        
       ->where('products.is_set', 'on')
       ->where('products.active', 'on')
       ->where('products.freebee', null)
       ->get(); 
       $total = $data->count();
 
-      return view('sets', ['data'=>$data, 'menu'=>'shop']);   
+      return view('sets', ['data'=>$data, 'menu'=>'shop', 'total'=>$total]);   
     }  
     public function download($id, $source)
-    {      
-      //           
+    {  
+      $product = DB::table('products')     
+                ->where('id', $id)
+                ->first();
+      if($product->$source == null){        
+        return redirect('my-account#tab-downloads')->with(session()->flash('alert-danger', 'The source file is not available! Please contact system admin.'));  
+      }
+      // checking purchase log 
+      $purchase = DB::table('order_details')     
+                ->where('product_id', $id)
+                ->where('user_id', session('user.id'))
+                ->first();  
+      if($purchase){
+          $data = Product::find($id); 
+          return redirect($data->$source);
+      }else{
+          return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong'));
+      }
+      
+    }  
+    public function freebeesDownload($id)
+    {           
       $data = Product::find($id); 
-      return redirect($data->$source);
+      return redirect($data->source);
     }  
     public function downloadMax($id)
     {      
@@ -262,7 +282,7 @@ class ProductController extends Controller
        {    
         $fetch = DB::table('products')
         ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
-        ->select('products.*', 'product_categories.name as catName')
+        ->select('products.*', 'product_categories.name as catName', 'product_categories.id as catId') 
         ->orderby('products.id', 'desc')
         ->get();        
         
@@ -306,42 +326,13 @@ class ProductController extends Controller
           $final_images = implode('|', $final_images_array);          
         }else{
           $final_images = implode('|', $all_images);          
-        }
-       
-        
-        // without winscp
-        // if($files=$request->file('source_files')){          
-        //     foreach($files as $file){
-        //         $name=$file->getClientOriginalName();
-        //         //request()->file('source_files')->store('documents');
-        //         $file->move('documents',$name);
-        //         $source_files[]=$name;
-
-        //         $lastIndex = strripos($name, '_');
-        //         $file_type =  substr($name, $lastIndex+1, -4);
-        //         //print_r($file_type);
-        //         $source_file_types[]=$file_type;
-        //     }
-        //     $source_files = implode('|', $source_files);
-        //     $file_types = implode(',', $source_file_types);  
-        // }
-
-      //using winscp 
-      // $source_files = $request->source_files;
-      // $source_file_types = explode('|', $source_files);
-
-      // foreach($source_file_types as $name){
-      //   $lastIndex = strripos($name, '_');
-      //   $file_type =  substr($name, $lastIndex+1, -4);
-      //   $file_types[]=$file_type;
-      // }      
-      // $file_types = implode(',', $file_types);   
-
-
+        }      
+      
 
         $data = new Product;
         $data->name = $request->name;
         $data->slug = Str::slug($request->name);
+        //dd($data->slug);
         $data->price = $request->price;
         //$data->msrp = $request->msrp;
 
@@ -408,6 +399,10 @@ class ProductController extends Controller
         $output='';
         $data = DB::table('products')
             ->where('name', 'like', '%' . $request->search . '%')
+            ->orWhere('materials', 'like', '%' . $request->search . '%')
+            ->orWhere('style', 'like', '%' . $request->search . '%')
+            ->orWhere('usages', 'like', '%' . $request->search . '%')
+            ->orWhere('brand', 'like', '%' . $request->search . '%')
             ->get();
         $row_count = $data->count();
         //return $row_count;
@@ -453,8 +448,9 @@ class ProductController extends Controller
               </div>
           </div>
       </div>';
-          echo $output;
+          
                 }
+          echo $output;
     
     
         }
@@ -568,15 +564,13 @@ class ProductController extends Controller
 
           $final_images =  array_diff($all_selected_images, $removed_image_name);          
           $final_images = implode('|', $final_images);
-          // dd($final_images);
-
-          
+          // dd($final_images);         
 
 
           $data = Product::find($request->id);
           $data->name = $request->name;
+          $data->slug = Str::slug($request->name);
           $data->images = $final_images;
-          $data->slug = Str::slug($request->title);
           $data->price = $request->price;
           //$data->msrp = $request->msrp;
           $data->measurement_unit = $request->measurement_unit;
@@ -621,8 +615,10 @@ class ProductController extends Controller
           }
           if($request->source_obj != null){
                 $file_formats[]='OBJ'; 
-          }
-          
+          }        
+
+          $data->file_formats = implode(',', $file_formats);
+
           $data->active = $request->active;
           $data->featured = $request->featured;
           $data->is_set = $request->is_set;
@@ -653,10 +649,7 @@ class ProductController extends Controller
       return redirect()->back()->with(session()->flash('alert-success', 'Item has been deleted successfully.'));
     }
 
-    /*============================
-       End News Post
-       ============================*/
-
+    
      
 
 }

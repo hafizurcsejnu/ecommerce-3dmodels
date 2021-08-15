@@ -66,7 +66,7 @@
 
                                 <div class="product-action action-icon-top">                                   
 
-                                    <a href="{{URL::to('freebies-download')}}/{{$item->id}}" class="btn-product btn-cart"><span>Download</span></a>
+                                    <a href="{{URL::to('product')}}/{{$item->id}}" class="btn-product btn-cart"><span>Download</span></a>
                                     
                                     <a href="{{URL::to('quick-view')}}/{{$item->id}}" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
                                   
@@ -79,7 +79,8 @@
                                 </div><!-- End .product-cat -->
                                 <h3 class="product-title"><a href="{{URL::to('product')}}/{{$item->id}}">{{$item->name}}</a></h3><!-- End .product-title -->
                                 <div class="product-price">
-                                   Price: ${{$item->price}}
+                                    <strike>Price: ${{$item->price}}</strike> 
+                                   
                                 </div><!-- End .product-price -->
                                 {{-- <div class="ratings-container">
                                     <div class="ratings">

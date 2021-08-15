@@ -48,33 +48,15 @@ $total = 0
     <link rel="stylesheet" href="{{asset('frontend/css/plugins/nouislider/nouislider.css')}}">
 
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
+    
     <link rel="stylesheet" href="{{asset('frontend/css/demos/demo-4.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/custom.css')}}">
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
 </head>
 
 <body>
-    
-<style>
-    a#lcdveli610g81fc025tlk {
-    display: none!important;
-}
-</style>
-    
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/61062447d6e7610a49adf8ce/1fbvvre8m';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+ 
 
     
     <div class="page-wrapper">
@@ -99,7 +81,7 @@ s0.parentNode.insertBefore(s1,s0);
                 </div><!-- End .container -->
             </div><!-- End .header-top -->
 
-            <div class="header-middle">
+            <div class="d-none header-middle">
                 <div class="container">
                     <div class="header-left">
                         <button class="mobile-menu-toggler">
@@ -116,15 +98,19 @@ s0.parentNode.insertBefore(s1,s0);
                         <div class="header-search header-search-extended header-search-visible header-search-no-radius d-none d-lg-block">
                             <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
                             
-                            <h5 id="not_found"  style="color:red; text-align:center;display:none">No item is found with this keyword!</h5>
+                            <h5 class="not_found"  style="color:red; text-align:center;display:none">No item is found with this keyword!</h5>
 
                             <div class="header-search-wrapper search-wrapper-wide">
                                 <label for="q" class="sr-only">Search</label>    
-                                <input type="text" name="search_text" id="search_text" placeholder="Search 3D Models" class="form-control" >                                   
+                                <input type="text" name="search_text" id="search_Text" placeholder="Search 3D Models" class="form-control" >                                   
                                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                            </div><!-- End .header-search-wrapper -->
+                            </div>
+                            
+                            <!-- End .header-search-wrapper -->
                                
-                        </div><!-- End .header-search -->                        
+                        </div><!-- End .header-search --> 
+
+                        
 
                     </div>                
 
@@ -228,42 +214,41 @@ s0.parentNode.insertBefore(s1,s0);
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
 
-          
+           
             <div class="header-bottom sticky-header">
                 <div class="container">
                     <div class="header-left">
+                       <a href="{{URL::to('/')}}"> <img src="{{asset('frontend/images/logo2.png')}}" alt="Logo"></a>
                         <div class="dropdown category-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">
                                 Browse Categories
-                            </a>
+                            </a> 
 
                             <div class="dropdown-menu">
-                                <nav class="side-nav">
-                                    <ul class="menu-vertical sf-arrows">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @php $categories = App\Traits\CategoryTrait::getCategories(); @endphp
+                                    @foreach($categories as $category)
+                                        <li>
+                                            <a class="dropdown-item" href="{{URL::to('3dmodels-category')}}/{{$category->id}}">
+                                                {{$category->name}}
+                                                @if(count($category->children)>0) &raquo; @endif
+                                            </a>
+                                            @if(count($category->children)>0)
+                                            <ul class="dropdown-menu dropdown-submenu">
+                                                @foreach($category->children as $subcat)
+                                                <li>
+                                                    <a class="dropdown-item" href="{{URL::to('3dmodels-category')}}/{{$subcat->id}}">{{$subcat->name}}</a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                            @endif
+                                        </li>
 
-                                        {{-- <li class="item-lead"><a href="#">Daily offers</a></li>
-                                        <li class="item-lead"><a href="#">Gift Ideas</a></li> --}}
-                                        <?php                            
-                                        $categories=DB::table('product_categories')
-                                        ->where('parent_id', null)
-                                        ->get();
-                                       ?>
-                                        @foreach($categories as $category) 
-                                        <?php 
-                                            // skip those categories who has no product.
-                                            $product = Product::orderBy('id', 'desc')->where('category_id', $category->id)->get();	  
-                                            $row_count = $product->count();
-                                            if ($row_count==0) {
-                                                continue;
-                                            }
-                                        ?>
-
-                                        <li><a href="{{URL::to('shop-category')}}/{{$category->id}}">{{$category->name}}</a></li>
-                                        @endforeach
-                                        
-                                    </ul><!-- End .menu-vertical -->
-                                </nav><!-- End .side-nav -->
-                            </div><!-- End .dropdown-menu -->
+                                    @endforeach
+                                    
+                                </ul>
+                            </div>
+                            <!-- End .dropdown-menu -->
                         </div><!-- End .category-dropdown -->
                     </div><!-- End .header-left -->
 
@@ -278,29 +263,26 @@ s0.parentNode.insertBefore(s1,s0);
                                 
                             ?>
 
-                            <ul class="menu sf-arrows">
-                                <li class="@if($menu == 'home') active @endif"><a class="nav-link" href="{{URL::to('/')}}">Home</a></li>
-                                <li class="@if($menu == 'shop') active @endif"><a class="nav-link" href="{{URL::to('/shop')}}">Shop</a></li>
+                            <ul class="menu sf-arrows">                              
+                                <li class="@if($menu == 'shop') active @endif"><a class="nav-link" href="{{URL::to('/3dmodels')}}">3D Models</a></li>
                                 <li class="@if($menu == 'freebies') active @endif"><a class="nav-link" href="{{URL::to('/freebies')}}">FreeBies</a></li>
                                 <li class="@if($menu == 'services') active @endif"><a class="nav-link" href="{{URL::to('/services')}}">Custom 3D Service</a></li>
                                 
-                            <?php 
-                            if(Session::get('user')) {?>                              
-                                {{-- <li aria-haspopup="true"><a href="{{url('my-account')}}">My Account</a></li> --}}
-                                <li class="@if($menu == 'my-account') active @endif">
-                                    <a href="{{url('my-account')}}" class="sf-with-ul">My Account</a>
-                                    <ul style="display: none;">
-                                        <li><a href="{{url('my-account')}}">My Orders</a></li>
-                                        <li><a href="{{url('my-wishlist')}}">My Wishlist</a></li>
-                                        <li><a href="{{url('logout')}}">Logout</a></li>
-                                    </ul>
-                                </li>
-                               
-                            <?php }?>
                            
+                            
+                            <li>
+                               
+                                    <label for="q" class="sr-only">Search</label>    
+                                    <input type="text" name="search_text" id="search_text" placeholder="Search 3D Models" class="form-control" style="width: 130%;margin-top: 14px;  " >                                   
+                                      
+                            </li>
 
                                
                             </ul><!-- End .menu -->
+
+                           
+
+
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-center -->
 
@@ -308,21 +290,30 @@ s0.parentNode.insertBefore(s1,s0);
                         
                         <div class="account">                           
                             <?php 
-                                if (Session::get('user')) {?>   
-                                    <a href="{{URL::to('/logout')}}">  
+                            if(Session::get('user')) {?>  
+                              
+                                <div class="dropdown cart-dropdown">
+                                    <a href="javascript:void(0)" title="Hi, {{session('user.name')}}" class="dropdown-toggle" role="button" data-toggle="dropdown1" aria-haspopup="true" aria-expanded="false" data-display="static">
                                         <div class="icon">
-                                        <i class="icon-user"></i>
-                                    </div>
-                                    <p>Logout</p>
-                                    </a>
-                                <?php }else{?>
-                                    <a href="{{url('login')}}" target="_blank">    
-                                        <div class="icon">
-                                            <i class="icon-user"></i>
+                                            <i class="icon-user"></i>                                           
                                         </div>
-                                        <p>Login</p>
+                                        <p>My Account</p>
                                     </a>
-                            <?php } ?>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="{{URL::to('my-account')}}">My Orders</a>
+                                        <a class="dropdown-item" href="{{URL::to('my-wishlist')}}">My Wishlist</a>
+                                        <a class="dropdown-item" href="{{URL::to('logout')}}">Logout</a>
+                                        </div>
+                                </div>                  
+                               
+                            <?php } else{?>   
+                                <a href="{{URL::to('login')}}" role="button">
+                                    <div class="icon">
+                                        <i class="icon-user"></i>                                           
+                                    </div>
+                                    <p>My Account</p>
+                                </a>
+                            <?php }?>   
                         
                         
                         <div class="dropdown cart-dropdown">
@@ -335,11 +326,11 @@ s0.parentNode.insertBefore(s1,s0);
                             </a>
                         </div>
                     </div>
-
-
+                    
                     </div>
-                </div><!-- End .container -->
+                </div><!-- End .container -->               
             </div><!-- End .header-bottom -->
+           
 <style>
     .search_item{
         float: left;
@@ -351,7 +342,7 @@ s0.parentNode.insertBefore(s1,s0);
 </style>
             <div class="row">
                 <div class="container">
-                    <div class="row search_result" style="background: #ededed;position: relative; width: 100%;z-index: 9999;">
+                    <div class="row search_result" style="background: #ededed;position: relative; width: 100%;">
                         <div id="result" style="width: 100%!important;"></div>
                     </div>
                 </div>
@@ -359,10 +350,15 @@ s0.parentNode.insertBefore(s1,s0);
 
 
         </header><!-- End .header -->
+        <div class="row" style="background-color: #f3f3f3">
+            <div class="container">
+                <h5 class="not_found"  style="color:#cc9966; text-align:center;display:none;margin-top:10px;">No item is found with this keyword!</h5>
+            </div>
+        </div>
     
     @yield('main_content') 
 
-    <footer class="footer footer-2">
+    <footer class="footer footer-dark">
         <div class="icon-boxes-container" style="background: #dde2f2">
             <div class="container">
                 <div class="row">
@@ -415,7 +411,7 @@ s0.parentNode.insertBefore(s1,s0);
                             <img src="{{asset('frontend/images/logo.png')}}" class="footer-logo" alt="Footer Logo" width="300" height="75">
                             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex aut tenetur ab aliquam? Alias sequi facere at rem earum nam nihil rerum recusandae voluptates voluptate, ipsam iusto ea quos accusantium.</p>
                             
-                            <div class="widget-about-info">
+                            <div class="widget-about-info d-none">
                                 <div class="row">
                                     <div class="col-sm-6 col-md-4">
                                         <span class="widget-about-title">Got Question? Call us 24/7</span>
@@ -429,36 +425,40 @@ s0.parentNode.insertBefore(s1,s0);
                                     </div><!-- End .col-sm-6 -->
                                 </div><!-- End .row -->
                             </div><!-- End .widget-about-info -->
+
+
                         </div><!-- End .widget about-widget -->
                     </div><!-- End .col-sm-12 col-lg-3 -->
 
-                    <div class="col-sm-4 col-lg-2">
+                   
+                    <div class="col-sm-4 col-lg-3">
                         <div class="widget">
-                            <h4 class="widget-title">Information</h4><!-- End .widget-title -->
-
+                            <br>
+                           <style>
+                               .footer-dark .widget-title {
+                                    color: #8c8c8c;
+                                }
+                           </style>
                             <ul class="widget-list">
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">FAQ</a></li>
-                                <li><a href="#">Contact us</a></li>
-                                <li><a href="#">Log in</a></li>
+                                <li><a href="#"> <h4 class="widget-title">About</h4></a></li>
+                                <li><a href="#"> <h4 class="widget-title">FAQ</h4></a></li>
+                                <li><a href="#"> <h4 class="widget-title">Give us feedback</h4></a></li>
                             </ul><!-- End .widget-list -->
                         </div><!-- End .widget -->
                     </div><!-- End .col-sm-4 col-lg-3 -->
 
-                    <div class="col-sm-4 col-lg-2">
-                        <div class="widget">
-                            <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
-
+                    <div class="col-sm-4 col-lg-3">
+                        <div class="widget">                          
+                            <br>
                             <ul class="widget-list">
-                                <li><a href="#">Payment Methods</a></li>
-                                <li><a href="#">Returns</a></li>
-                                <li><a href="#">Terms and conditions</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#"> <h4 class="widget-title">Payment Methods</h4></a></li>
+                                 <li><a href="#"> <h4 class="widget-title">Returns</h4></a></li>
+                                <li><a href="#"> <h4 class="widget-title">Legal</h4></a></li>
                             </ul><!-- End .widget-list -->
                         </div><!-- End .widget -->
                     </div><!-- End .col-sm-4 col-lg-3 -->
 
-                    <div class="col-sm-4 col-lg-2">
+                    {{-- <div class="col-sm-4 col-lg-2">
                         <div class="widget">
                             <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
 
@@ -468,14 +468,16 @@ s0.parentNode.insertBefore(s1,s0);
                                 <li><a href="{{url('my-wishlist')}}">My Wishlist</a></li>
                             </ul><!-- End .widget-list -->
                         </div><!-- End .widget -->
-                    </div><!-- End .col-sm-64 col-lg-3 -->
+                    </div><!-- End .col-sm-64 col-lg-3 --> --}}
+
+
                 </div><!-- End .row -->
             </div><!-- End .container -->
         </div><!-- End .footer-middle -->
 
         <div class="footer-bottom">
             <div class="container">
-                <p class="footer-copyright">Copyright © 2021 Ready 3D Models. All Rights Reserved.</p><!-- End .footer-copyright -->
+                <p class="footer-copyright">Copyright © 2021 Ready 3D Models. All Rights Reserved.</p><!-- End .footer-copyright -->                                   
                 <ul class="footer-menu">
                     <li><a href="#">Terms Of Use</a></li>
                     <li><a href="#">Privacy Policy</a></li>
@@ -688,7 +690,7 @@ s0.parentNode.insertBefore(s1,s0);
 <script src="{{asset('frontend/js/main.js')}}"></script>
 <script src="{{asset('frontend/js/demos/demo-2.js')}}"></script>
 <script src="{{asset('frontend/js/cart.js')}}"></script>
-@stack('js')
+
 <script>
      // live search start
      $( document ).ready(function() {
@@ -725,10 +727,11 @@ s0.parentNode.insertBefore(s1,s0);
                         if( data != 'not found'){
                             $('#result').html(data);
                             $('#result').show();
-                            $("#not_found").css("display", "none");
+                            $(".not_found").css("display", "none");
                         }else{
                             $('#result').hide();
-                            $("#not_found").css("display", "block");
+                            $(".not_found").css("display", "block");
+                            console.log('not found');
                         }                     
                       
                     }
@@ -744,14 +747,7 @@ s0.parentNode.insertBefore(s1,s0);
 
 <script>    
 $( document ).ready(function() {
-
-    $('.menu .nav-link').click(function(){
-        console.log('nav-link clicked');
-      $('.menu .nav-link').removeClass('active');
-      $(this).addClass('active');
-   })
-
-
+   
     // coupon start
     $('#couponBtn').click(function (){              
         var coupon_code = $('#coupon_code').val();
@@ -783,30 +779,29 @@ $( document ).ready(function() {
             //     $('#error_message').html(string);
             //   }
                 if(response.success==true){
-                var total_price=$('.total').html();
-                var discount_amount = response.data.discount_amount;
-                var updated_price = total_price-discount_amount;
-                console.log(updated_price);                                          
-                
-                var tr_coupon = '<td>Coupon Discount:</td><td>-$'+discount_amount+'</td>';
-                $('.coupon').append(tr_coupon);
-                $(".total").html(updated_price);
-                
-                var string= 'You are enjoying $'+discount_amount+ ' as a discount.';
-                $('#success_message').html(string);
-                //$('#error_message').hide();
-                $("#error_message").css("display", "none");
-                $('.cart-discount').hide();
-                $('.coupon_discount').hide();
+                    var total_price=$('.total').html();
+                    var discount_amount = response.data.discount_amount;
+                    var updated_price = total_price-discount_amount;
+                    console.log(updated_price);                                          
+                    
+                    var tr_coupon = '<td>Coupon Discount:</td><td>-$'+discount_amount+'</td>';
+                    $('.coupon').append(tr_coupon);
+                    $(".total").html(updated_price);
+                    
+                    var string= 'You are enjoying $'+discount_amount+ ' as a discount.';
+                    $('#success_message').html(string);
+                    //$('#error_message').hide();
+                    $("#error_message").css("display", "none");
+                    $('.cart-discount').hide();
+                    $('.coupon_discount').hide();
                 }
                 else{
-                var total_price=$('.total').html();
-                $(".total").html(total_price);
-                $('.coupon_discount').hide();
-                
-                var string= 'Wrong coupon code! Please use correct one.';
-                $('#error_message').html(string);
-                
+                    var total_price=$('.total').html();
+                    $(".total").html(total_price);
+                    $('.coupon_discount').hide();
+                    
+                    var string= 'Wrong coupon code! Please use correct one.';
+                    $('#error_message').html(string);                
                 } 
                 
             }
@@ -815,25 +810,46 @@ $( document ).ready(function() {
         }
     });
     // coupon end
+
+    // wishlist class start
+    $('.addToWishlist').click(function (event){  
+        event.preventDefault();            
+        var id = $(this).data('id');
+                        
+        $.ajax({
+        url:"{{route('add-to-wishlist')}}",
+        data: {
+            _token: '{{csrf_token()}}',
+            id: id
+        },
+        type: 'POST',
+        success: function(response){   
+            if(response.success==true){  
+                var string = '<p class="alert alert-success">'+response.data+'</p>';
+                $('#message'+response.product_id+'').html(string);                
+                //console.log(response.product_id); 
+
+                //in shop page
+                $('#atw'+response.product_id+'').css('background', 'green');
+                $('#atw'+response.product_id+'').html('Item has need added.');
+            }
+            else{
+                var string = '<p class="alert alert-warning">'+response.data+'</p>';
+                $('#message'+response.product_id+'').html(string);
+
+                //in shop page
+                $('#atw'+response.product_id+'').css('background', 'red');
+                $('#atw'+response.product_id+'').html('Item exist!');
+            }               
+        } 
+        });
+    });
+    // wishlist class end
 });
 </script>
 
-<script>
-//     function setActiveLink(setActive){
-// if ($("a").hasClass('active'))
-// $("a").removeClass('active');
-// if (setActive)
-// $("#"+setActive).addClass('active');
-// }
-
-// $(function() {
-// $("#link4").click(function() {
-// setActiveLink(this.id);
-// });
-// });
-</script>
 
 </body>
-
+@stack('js')
 
 </html>

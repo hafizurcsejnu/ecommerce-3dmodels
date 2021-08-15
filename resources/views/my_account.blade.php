@@ -2,6 +2,9 @@
 @extends('layouts.master')
 @section('main_content')
 <style>
+    .icon-boxes-container {
+    display: none;
+}
     .page-header.text-center {
         display: none;
     }

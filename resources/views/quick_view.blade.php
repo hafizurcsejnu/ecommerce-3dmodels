@@ -38,8 +38,7 @@
 						{ 
 						?>
 						<div class="intro-slide" data-hash="<?php echo $i;?>">
-							<img src="{{asset('images')}}/{{$images[$i]}}" alt="Image Desc">
-							
+							<img src="{{asset('images')}}/{{$images[$i]}}" class="product_image" alt="Product Image">
 						</div>
 						 <?php } ?>
 

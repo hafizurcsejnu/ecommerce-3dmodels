@@ -18,12 +18,13 @@ $total = 0
 
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="_token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Ready 3D Models</title>
-    <meta name="keywords" content="Ready 3D Models">
-    <meta name="description" content="Ready 3D Models | High Quality 3D Design">
+    <title>{{ENV('APP_NAME')}}</title>
+    <meta name="keywords" content="{{ENV('APP_NAME')}}">
+    <meta name="description" content="{{ENV('APP_SLOGAN')}}">
     <meta name="author" content="p-themes">
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{asset('frontend/images/icons/apple-touch-icon.png')}}">
@@ -48,8 +49,9 @@ $total = 0
     <link rel="stylesheet" href="{{asset('frontend/css/plugins/nouislider/nouislider.css')}}">
 
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
+    
     <link rel="stylesheet" href="{{asset('frontend/css/demos/demo-4.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/custom.css')}}">
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
 </head>
@@ -97,7 +99,7 @@ $total = 0
                         <div class="header-search header-search-extended header-search-visible header-search-no-radius d-none d-lg-block">
                             <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
                             
-                            <h5 id="not_found"  style="color:red; text-align:center;display:none">No item is found with this keyword!</h5>
+                            <h5 class="not_found"  style="color:red; text-align:center;display:none">No item is found with this keyword!</h5>
 
                             <div class="header-search-wrapper search-wrapper-wide">
                                 <label for="q" class="sr-only">Search</label>    
@@ -189,7 +191,7 @@ $total = 0
                             </a>
                         </figure>
                         <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                    </div><!-- End .product -->
+                    </div>
                    @endforeach
                 @endif
                     
@@ -215,7 +217,7 @@ $total = 0
 
            
             <div class="header-bottom sticky-header">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="header-left">
                        <a href="{{URL::to('/')}}"> <img src="{{asset('frontend/images/logo2.png')}}" alt="Logo"></a>
                         <div class="dropdown category-dropdown">
@@ -263,7 +265,8 @@ $total = 0
                             ?>
 
                             <ul class="menu sf-arrows">                              
-                                <li class="@if($menu == 'shop') active @endif"><a class="nav-link" href="{{URL::to('/3dmodels')}}">3D Mmodels</a></li>
+                                <li class="@if($menu == 'home') active @endif"><a class="nav-link" href="{{URL::to('/')}}">Home</a></li>
+                                <li class="@if($menu == 'shop') active @endif"><a class="nav-link" href="{{URL::to('/3dmodels')}}">3D Models</a></li>
                                 <li class="@if($menu == 'freebies') active @endif"><a class="nav-link" href="{{URL::to('/freebies')}}">FreeBies</a></li>
                                 <li class="@if($menu == 'services') active @endif"><a class="nav-link" href="{{URL::to('/services')}}">Custom 3D Service</a></li>
                                 
@@ -272,7 +275,7 @@ $total = 0
                             <li>
                                
                                     <label for="q" class="sr-only">Search</label>    
-                                    <input type="text" name="search_text" id="search_text" placeholder="Search 3D Models" class="form-control" style="width: 180%;margin-top: 14px;  " >                                   
+                                    <input type="text" name="search_text" id="search_text" placeholder="Search 3D Models" class="form-control" style="width: 175%;margin-top: 14px;  " >                                   
                                       
                             </li>
 
@@ -292,7 +295,7 @@ $total = 0
                             if(Session::get('user')) {?>  
                               
                                 <div class="dropdown cart-dropdown">
-                                    <a href="javascript:void(0)" class="dropdown-toggle" role="button" data-toggle="dropdown1" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                    <a href="javascript:void(0)" title="Hi, {{session('user.name')}}" class="dropdown-toggle" role="button" data-toggle="dropdown1" aria-haspopup="true" aria-expanded="false" data-display="static">
                                         <div class="icon">
                                             <i class="icon-user"></i>                                           
                                         </div>
@@ -325,11 +328,11 @@ $total = 0
                             </a>
                         </div>
                     </div>
-
-
+                    
                     </div>
-                </div><!-- End .container -->
+                </div><!-- End .container -->               
             </div><!-- End .header-bottom -->
+           
 <style>
     .search_item{
         float: left;
@@ -349,12 +352,17 @@ $total = 0
 
 
         </header><!-- End .header -->
+        <div class="row" style="background-color: #f3f3f3">
+            <div class="container">
+                <h5 class="not_found"  style="color:#cc9966; text-align:center;display:none;margin-top:10px;">No item is found with this keyword!</h5>
+            </div>
+        </div>
     
     @yield('main_content') 
 
-    <footer class="footer footer-2">
-        <div class="icon-boxes-container" style="background: #dde2f2">
-            <div class="container">
+    <footer class="footer footer-dark">
+        <div class="icon-boxes-container" style="background: #fafafa">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6 col-lg-3">
                        
@@ -398,7 +406,7 @@ $total = 0
   
 
         <div class="footer-middle">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12 col-lg-6">
                         <div class="widget widget-about">
@@ -428,7 +436,11 @@ $total = 0
                     <div class="col-sm-4 col-lg-3">
                         <div class="widget">
                             <br>
-                           
+                           <style>
+                               .footer-dark .widget-title {
+                                    color: #8c8c8c;
+                                }
+                           </style>
                             <ul class="widget-list">
                                 <li><a href="#"> <h4 class="widget-title">About</h4></a></li>
                                 <li><a href="#"> <h4 class="widget-title">FAQ</h4></a></li>
@@ -466,8 +478,8 @@ $total = 0
         </div><!-- End .footer-middle -->
 
         <div class="footer-bottom">
-            <div class="container">
-                <p class="footer-copyright">Copyright © 2021 Ready 3D Models. All Rights Reserved.</p><!-- End .footer-copyright -->                                      z
+            <div class="container-fluid">
+                <p class="footer-copyright">Copyright © 2021 Ready 3D Models. All Rights Reserved.</p><!-- End .footer-copyright -->                                   
                 <ul class="footer-menu">
                     <li><a href="#">Terms Of Use</a></li>
                     <li><a href="#">Privacy Policy</a></li>
@@ -717,10 +729,11 @@ $total = 0
                         if( data != 'not found'){
                             $('#result').html(data);
                             $('#result').show();
-                            $("#not_found").css("display", "none");
+                            $(".not_found").css("display", "none");
                         }else{
                             $('#result').hide();
-                            $("#not_found").css("display", "block");
+                            $(".not_found").css("display", "block");
+                            console.log('not found');
                         }                     
                       
                     }
@@ -736,14 +749,7 @@ $total = 0
 
 <script>    
 $( document ).ready(function() {
-
-    $('.menu .nav-link').click(function(){
-        console.log('nav-link clicked');
-      $('.menu .nav-link').removeClass('active');
-      $(this).addClass('active');
-   })
-
-
+   
     // coupon start
     $('#couponBtn').click(function (){              
         var coupon_code = $('#coupon_code').val();
@@ -775,30 +781,29 @@ $( document ).ready(function() {
             //     $('#error_message').html(string);
             //   }
                 if(response.success==true){
-                var total_price=$('.total').html();
-                var discount_amount = response.data.discount_amount;
-                var updated_price = total_price-discount_amount;
-                console.log(updated_price);                                          
-                
-                var tr_coupon = '<td>Coupon Discount:</td><td>-$'+discount_amount+'</td>';
-                $('.coupon').append(tr_coupon);
-                $(".total").html(updated_price);
-                
-                var string= 'You are enjoying $'+discount_amount+ ' as a discount.';
-                $('#success_message').html(string);
-                //$('#error_message').hide();
-                $("#error_message").css("display", "none");
-                $('.cart-discount').hide();
-                $('.coupon_discount').hide();
+                    var total_price=$('.total').html();
+                    var discount_amount = response.data.discount_amount;
+                    var updated_price = total_price-discount_amount;
+                    console.log(updated_price);                                          
+                    
+                    var tr_coupon = '<td>Coupon Discount:</td><td>-$'+discount_amount+'</td>';
+                    $('.coupon').append(tr_coupon);
+                    $(".total").html(updated_price);
+                    
+                    var string= 'You are enjoying $'+discount_amount+ ' as a discount.';
+                    $('#success_message').html(string);
+                    //$('#error_message').hide();
+                    $("#error_message").css("display", "none");
+                    $('.cart-discount').hide();
+                    $('.coupon_discount').hide();
                 }
                 else{
-                var total_price=$('.total').html();
-                $(".total").html(total_price);
-                $('.coupon_discount').hide();
-                
-                var string= 'Wrong coupon code! Please use correct one.';
-                $('#error_message').html(string);
-                
+                    var total_price=$('.total').html();
+                    $(".total").html(total_price);
+                    $('.coupon_discount').hide();
+                    
+                    var string= 'Wrong coupon code! Please use correct one.';
+                    $('#error_message').html(string);                
                 } 
                 
             }
@@ -807,23 +812,44 @@ $( document ).ready(function() {
         }
     });
     // coupon end
+
+    // wishlist class start
+    $('.addToWishlist').click(function (event){  
+        event.preventDefault();            
+        var id = $(this).data('id');
+                        
+        $.ajax({
+        url:"{{route('add-to-wishlist')}}",
+        data: {
+            _token: '{{csrf_token()}}',
+            id: id
+        },
+        type: 'POST',
+        success: function(response){   
+            if(response.success==true){  
+                var string = '<p class="alert alert-success">'+response.data+'</p>';
+                $('#message'+response.product_id+'').html(string);                
+                //console.log(response.product_id); 
+
+                //in shop page
+                $('#atw'+response.product_id+'').css('background', 'green');
+                $('#atw'+response.product_id+'').html('Item has need added.');
+            }
+            else{
+                var string = '<p class="alert alert-warning">'+response.data+'</p>';
+                $('#message'+response.product_id+'').html(string);
+
+                //in shop page
+                $('#atw'+response.product_id+'').css('background', 'red');
+                $('#atw'+response.product_id+'').html('Item exist!');
+            }               
+        } 
+        });
+    });
+    // wishlist class end
 });
 </script>
 
-<script>
-//     function setActiveLink(setActive){
-// if ($("a").hasClass('active'))
-// $("a").removeClass('active');
-// if (setActive)
-// $("#"+setActive).addClass('active');
-// }
-
-// $(function() {
-// $("#link4").click(function() {
-// setActiveLink(this.id);
-// });
-// });
-</script>
 
 </body>
 @stack('js')

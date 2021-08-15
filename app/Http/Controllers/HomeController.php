@@ -17,14 +17,32 @@ class HomeController extends Controller
         ->select('products.*', 'product_categories.name as catName')        
         ->where('products.active', 'on')
         ->where('products.featured', 'on')
-        ->get(); 
-      $latest_products = DB::table('products')
-        ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
-        ->select('products.*', 'product_categories.name as catName')        
-        ->where('products.active', 'on')
-        ->get(); 
+        ->get();       
 
-      return view('home', ['featured_products'=>$featured_products, 'latest_products'=>$latest_products, 'menu'=>'home']);  
+      $sets = DB::table('products')
+      ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
+      ->select('products.*', 'product_categories.name as catName', 'product_categories.id as catId')        
+      ->where('products.is_set', 'on')
+      ->where('products.active', 'on')
+      ->where('products.freebee', null)
+      ->get(); 
+
+      $collections = DB::table('collections')
+      ->where('active', 'on')
+      ->get(); 
+      //dd($collections);
+
+      $top_selling = DB::table('products') // need to change with top selling
+      ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
+      ->select('products.*', 'product_categories.name as catName', 'product_categories.id as catId')        
+      ->where('products.is_set', null)
+      ->where('products.active', 'on')
+      ->where('products.freebee', null)
+      ->orderby('products.id', 'desc')
+      ->limit(30)
+      ->get(); 
+
+      return view('home', ['featured_products'=>$featured_products, 'top_selling'=>$top_selling, 'sets'=>$sets, 'collections'=>$collections, 'menu'=>'home']);  
     }
 
     public function show($id)
