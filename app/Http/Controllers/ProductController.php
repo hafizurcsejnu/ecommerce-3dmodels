@@ -24,7 +24,7 @@ class ProductController extends Controller
       // ->where('products.freebee', null)
       // ->get(); 
 
-      $data = Product::paginate(30);
+      $data = Product::withCount('popularity')->orderBy('created_at', 'desc')->paginate(30);
       $total = Product::count();
       if($request->ajax()){
         $query = Product::query()->with('category');
@@ -79,7 +79,7 @@ class ProductController extends Controller
             }
           }
           
-          return response()->json(["total"=>$query->count(),"items"=>json_encode($query->paginate(20)),"form_data"=>$form_data]);
+          return response()->json(["total"=>$query->count(),"items"=>json_encode($query->orderBy('created_at', 'desc')->paginate(20)),"form_data"=>$form_data]);
         }
         return response()->json(json_encode($data));
       }
@@ -193,6 +193,7 @@ class ProductController extends Controller
       ->where('products.active', 'on')
       ->where('products.is_set', null)
       ->where('products.freebee', null)
+      ->orderBy('created_at', 'desc')
       ->get(); 
       $total = $data->count();
       //dd($total);

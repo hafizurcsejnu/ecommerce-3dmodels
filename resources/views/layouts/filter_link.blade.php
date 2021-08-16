@@ -46,8 +46,8 @@
             <label for="sortby">Sort by:</label>
             <div class="select-custom">
                 <select name="sortby" id="sortby" class="form-control">
-                    <option value="popularity" selected="selected">Most Popular</option>
-                    <option value="date">Date</option>
+                    <option value="date" selected="selected">Date</option>
+                    <option value="popularity">Most Popular</option>
                 </select>
             </div>
         </div><!-- End .toolbox-sort -->

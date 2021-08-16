@@ -277,23 +277,43 @@
                     if(!data_status){
                         items.forEach(element => {
                             loaded_item = loaded_item+1;
-                            var html = '<div class="col-6 col-md-4 col-lg-4 col-xl-3"> <div class="product"> <figure class="product-media"> <span class="product-label label-new">:product_status</span> <a href=":product_url"> <img src=":image_src" alt=":image_name" class="product-image"> </a> <div class="product-action action-icon-top"> <a href="javascript:void(0)" class="btn-product btn-cart add-to-cart " data-id=":id"><span class="add-to-cart-btn">Add to cart</span></a> <a href=":quick_view_url" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> </div> </figure> <div class="product-body"> <div class="product-cat"> <a href="#">:cat_name</a> </div> <h3 class="product-title"><a href=":product_url">:name</a></h3> <div class="product-price"> $:price </div> <div class="ratings-container"> <div class="ratings"> <div class="ratings-val" style="width: 0%;"></div> </div> <span class="ratings-text">( 0 Reviews )</span> </div> </div></div></div>';
+                            var html = '<div class="col-6 col-md-4 col-lg-4 col-xl-2"> <div class="product product-2" data-count=":popularity_count"> <figure class="product-media">:image_code<div class="product-action-vertical"> :wishlist </div><div class="product-action product-action-dark">  <a href="javascript:void(0)" class="btn-product btn-cart addToCart :cart" data-id=":id"><span>Add to cart</span></a> <a href=":quick_view_url" class="btn-product btn-quickview" title="Quick view"><span>Quick view</span></a> </div></figure><div class="product-body"> <div class="product-cat"></div><h3 class="product-title"><a href=":product_url">:name</a></h3><div class="product-price"> $:price </div> </div></div> </div>';
                             // time difference 
                             var start_date= new Date(element.created_at);
                             var end_date= new Date();
                             var diff = end_date-start_date;
                             var days = Math.round(diff/(1000 * 3600 * 24));
                             
+
                             // image
                             var images = element.images.split('|');
-                            var image_src = "{{asset('images')}}/"+images[0];
-
+                            if(images[0]){
+                                var image_src = "{{asset('images')}}/"+images[0];
+                                var image_code = '<a href=":product_url"> <img src=":image_src" alt=":image_name" class="product-image"> </a>';
+                                image_code = image_code.replace(':image_src',image_src);
+                            }
+                            else{
+                                var image_src = "{{asset('frontend/images/no-image.png')}}";
+                                var image_code = '<a href=":product_url"> <img style="width: 100%" src=":image_src" alt="Product image not found"> </a>';
+                                image_code = image_code.replace(":image_src",image_src);
+                            }
 
                             // product url 
                             var quick_view_url = "{{URL::to('quick-view')}}/"+element.id;
                             var product_url = "product/"+element.id;
 
+                            var user_status = "{{Session::get('user')}}";
+                            if(user_status){
+                                var wishlist = '<a href="javascript:void(0)" class="btn-product-icon btn-wishlist btn-expandable addToWishlist" title="Wishlist" data-id=":id"> <span id="atw:id">Add to Wishlist</span> </a>';
+                            }else{
+                                var login_url = "{{url('login')}}"
+                                var wishlist = '<a href="'+login_url+'" class="btn-product-icon btn-wishlist btn-expandable" title="Wishlist"><span>Add to Wishlist</span></a>';
+                            }
+
+
                             // append data to html template
+                            html = html.replace(":image_code",image_code);
+                            html = html.replace(":wishlist",wishlist);
                             html = html.replace(":id",element.id);
                             html = html.replace(":name",element.name);
                             html = html.replace(":image_src",image_src);
@@ -301,6 +321,7 @@
                             html = html.replace(":quick_view_url",quick_view_url);
                             html = html.replace(":product_url",product_url);
                             html = html.replace(":price",element.price);
+                            html = html.replace(":popularity_count",element.popularity_count);
                             if(element.sub_category!=null){
                                 html = html.replace(":cat_name",element.sub_category.name);
                             }else if(element.category!=null){
@@ -354,23 +375,43 @@
                             else{
                                 loaded_item = loaded_item+1;
                             }
-                            var html = '<div class="col-6 col-md-4 col-lg-4 col-xl-3"> <div class="product"> <figure class="product-media"> <span class="product-label label-new">:product_status</span> <a href=":product_url"> <img src=":image_src" alt=":image_name" class="product-image"> </a> <div class="product-action action-icon-top"> <a href="javascript:void(0)" class="btn-product btn-cart add-to-cart " data-id=":id"><span class="add-to-cart-btn">Add to cart</span></a> <a href=":quick_view_url" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> </div> </figure> <div class="product-body"> <div class="product-cat"> <a href="#">:cat_name</a> </div> <h3 class="product-title"><a href=":product_url">:name</a></h3> <div class="product-price"> $:price </div> <div class="ratings-container"> <div class="ratings"> <div class="ratings-val" style="width: 0%;"></div> </div> <span class="ratings-text">( 0 Reviews )</span> </div> </div></div></div>';
+                            var html = '<div class="col-6 col-md-4 col-lg-4 col-xl-2"> <div class="product product-2" data-count=":popularity_count"> <figure class="product-media">:image_code<div class="product-action-vertical"> :wishlist </div><div class="product-action product-action-dark">  <a href="javascript:void(0)" class="btn-product btn-cart addToCart :cart" data-id=":id"><span>Add to cart</span></a> <a href=":quick_view_url" class="btn-product btn-quickview" title="Quick view"><span>Quick view</span></a> </div></figure><div class="product-body"> <div class="product-cat"></div><h3 class="product-title"><a href=":product_url">:name</a></h3><div class="product-price"> $:price </div> </div></div> </div>';
                             // time difference 
                             var start_date= new Date(element.created_at);
                             var end_date= new Date();
                             var diff = end_date-start_date;
                             var days = Math.round(diff/(1000 * 3600 * 24));
                             
+
                             // image
                             var images = element.images.split('|');
-                            var image_src = "{{asset('images')}}/"+images[0];
-
+                            if(images[0]){
+                                var image_src = "{{asset('images')}}/"+images[0];
+                                var image_code = '<a href=":product_url"> <img src=":image_src" alt=":image_name" class="product-image"> </a>';
+                                image_code = image_code.replace(":image_src",image_src);
+                            }
+                            else{
+                                var image_src = "{{asset('frontend/images/no-image.png')}}";
+                                var image_code = '<a href=":product_url"> <img style="width: 100%" src=":image_src" alt="Product image not found"> </a>';
+                                image_code = image_code.replace(":image_src",image_src);
+                            }
 
                             // product url 
                             var quick_view_url = "{{URL::to('quick-view')}}/"+element.id;
                             var product_url = "product/"+element.id;
 
+                            var user_status = "{{Session::get('user')}}";
+                            if(user_status){
+                                var wishlist = '<a href="javascript:void(0)" class="btn-product-icon btn-wishlist btn-expandable addToWishlist" title="Wishlist" data-id=":id"> <span id="atw:id">Add to Wishlist</span> </a>';
+                            }else{
+                                var login_url = "{{url('login')}}"
+                                var wishlist = '<a href="'+login_url+'" class="btn-product-icon btn-wishlist btn-expandable" title="Wishlist"><span>Add to Wishlist</span></a>';
+                            }
+
+
                             // append data to html template
+                            html = html.replace(":image_code",image_code);
+                            html = html.replace(":wishlist",wishlist);
                             html = html.replace(":id",element.id);
                             html = html.replace(":name",element.name);
                             html = html.replace(":image_src",image_src);
@@ -378,6 +419,7 @@
                             html = html.replace(":quick_view_url",quick_view_url);
                             html = html.replace(":product_url",product_url);
                             html = html.replace(":price",element.price);
+                            html = html.replace(":popularity_count",element.popularity_count);
                             if(element.sub_category!=null){
                                 html = html.replace(":cat_name",element.sub_category.name);
                             }else if(element.category!=null){
@@ -448,6 +490,24 @@
             $(document).on('click','.close-filter',function(){
                 $('.sidebar-toggler').click();
             });
+            $(document).on('change','#sortby',function(){
+                var value = $(this).val();
+                if(value == "date"){
+                    location.reload();
+                }
+                else{
+                    var result = $('.product-column').sort(function (a, b) {
+                        var contentA =parseInt( $(a).data('count'));
+                        var contentB =parseInt( $(b).data('count'));
+                        return (contentA > contentB) ? -1 : (contentA < contentB) ? 1 : 0;
+                    });
+
+                    $('.products .row').html(result);
+
+                }
+
+            })
+            
         });
     </script>
 

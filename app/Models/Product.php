@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductCategory;
+use DB;
 
 class Product extends Model
 {
@@ -17,5 +18,9 @@ class Product extends Model
     }
     public function sub_category(){
         return $this->belongsTo(ProductCategory::class);
+    }
+
+    public function popularity(){
+        return $this->hasMany('App\Models\OrderDetail');
     }
 }

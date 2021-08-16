@@ -18,7 +18,7 @@
 <div class="products">
     <div class="row">
         @foreach($data as $item)      
-        <div class="col-6 col-md-4 col-lg-4 col-xl-2">                         
+        <div class="col-6 col-md-4 col-lg-4 col-xl-2 product-column"  data-count="{{$item->popularity_count}}">                         
 
             <div class="product product-2">
                 <figure class="product-media">
@@ -92,8 +92,9 @@
     </div><!-- End .row -->
 
     <div class="" id="status"></div>
-
+    @if(count($data)>=30)
     <div class="load-more-container text-center">
         <a href="javascript:void(0)" class="btn btn-outline-darker btn-load-more" data-count="30">More Models <i class="icon-refresh"></i></a>
     </div><!-- End .load-more-container -->
+    @endif
 </div>

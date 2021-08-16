@@ -342,13 +342,13 @@ $total = 0
     min-height: 169px;
 }
 </style>
-            <div class="row">
-                <div class="container">
-                    <div class="row search_result" style="background: #ededed;position: relative; width: 100%;z-index: 9999;">
-                        <div id="result" style="width: 100%!important;"></div>
-                    </div>
-                </div>
+        
+        <div class="container" style="position:absolute;left: 0;right: 0; margin-left: auto; margin-right: auto;">
+            <div class="row search_result" style="background: #ededed;position: relative; width: 100%;z-index: 9999;">
+                <div id="result" style="width: 100%!important; max-height:400px;overflow:scroll"></div>
             </div>
+        </div>
+        
 
 
         </header><!-- End .header -->
