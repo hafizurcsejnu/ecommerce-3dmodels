@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use DB;
+use App\Models\ProductCategory;
 
 
 class HomeController extends Controller
@@ -42,7 +43,8 @@ class HomeController extends Controller
       ->limit(30)
       ->get(); 
 
-      return view('home', ['featured_products'=>$featured_products, 'top_selling'=>$top_selling, 'sets'=>$sets, 'collections'=>$collections, 'menu'=>'home']);  
+      $categories = ProductCategory::with('children')->has('children')->paginate(5);
+      return view('home', ['featured_products'=>$featured_products, 'top_selling'=>$top_selling, 'sets'=>$sets, 'collections'=>$collections, 'menu'=>'home','categories'=>$categories]);  
     }
 
     public function show($id)
