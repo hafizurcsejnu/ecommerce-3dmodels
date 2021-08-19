@@ -60,9 +60,10 @@ Route::get('services', function () {
 });
 
 
-Route::get('3dmodels-category/{id}',[ProductController::Class,'shopCategory']);
-Route::get('3dmodels-subcategory/{id}',[ProductController::Class,'shopSubCategory']);
+Route::get('3dmodels-category/{id}',[ProductController::Class,'shopCategory'])->name('category');
+Route::get('3dmodels-subcategory/{id}',[ProductController::Class,'shopSubCategory'])->name('sub-category');
 Route::get('quick-view/{id}',[ProductController::Class,'quickView']); 
+Route::get('more-categories',[HomeController::Class,'loadCategories'])->name('load-more-category');
 
 Route::get('product/{id}',[ProductController::Class,'show']);
 Route::get('3dmodels-category/product/{id}',[ProductController::Class,'show']);

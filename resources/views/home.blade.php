@@ -340,10 +340,10 @@ use App\Models\Collection;
 										</a>
 
 										<div class="banner-content">										
-											<a href="http://127.0.0.1:8000/3dmodels-category/7"><h2 class="title text-center mb-4">{{$category->name}}</h2></a>
+											<a href="{{route('category',$category->id)}}"><h2 class="title text-center mb-4">{{$category->name}}</h2></a>
 
-											<h3 class="banner-title text-white"><a href="http://127.0.0.1:8000/3dmodels-category/7">{{count($category->children)}} models in this category</a></h3><!-- End .banner-title -->
-											<a href="http://127.0.0.1:8000/3dmodels-category/7" class="banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+											<h3 class="banner-title text-white"><a href="{{route('category',$category->id)}}">{{count($category->children)}} models in this category</a></h3><!-- End .banner-title -->
+											<a href="{{route('category',$category->id)}}" class="banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
 										</div><!-- End .banner-content -->
 									</div><!-- End .banner -->
 								</div><!-- End .col-sm-6 -->
@@ -389,16 +389,19 @@ use App\Models\Collection;
 									<div class="owl-item" style="width: 230px; margin-right: 20px;"><div class="product text-center">
 										<figure class="product-media">
 											
-											<a href="http://127.0.0.1:8000/3dmodels-category/63">	
+											<a href="{{route('sub-category',$subcat->id)}}">	
 												<img src="http://127.0.0.1:8000/storage/app/public/images/QYGo0ySyyviXhaUGO4EsUnUokHTu37FWijORID4I.jpg" alt="" class="product-image sub_cat">
 											</a>
 										</figure>
 
-										<a href="http://127.0.0.1:8000/3dmodels-category/63">	
+										<a href="{{route('sub-category',$subcat->id)}}">	
 											<div class="product-body">									
-												<h3 class="product-title">armchair</h3>
+												<h3 class="product-title">{{$subcat->name}}</h3>
 												<div class="product-price">
-													1 Models
+													@php
+														$models = \App\Models\Product::where('sub_category_id',$subcat->id)->count();	
+													@endphp
+													{{$models}} Models
 												</div>
 											</div>
 										</a>
@@ -1085,3 +1088,66 @@ use App\Models\Collection;
 
  
 @endsection
+
+@push('js')
+	<script>
+		$(document).ready(function(){
+			$(document).on('click','.category-load-more',function(){
+				var count = $(this).data('count');
+				var url = '{{route("load-more-category")}}';
+				$.get(url,{
+                    count: count,
+                },function(response){
+					var sub_url = "{{route('category',':cat_id')}}";
+					var category_html = '<div class="row cat-banner-row electronics"> <div class="col-xl-2 col-xxl-2"> <div class="cat-banner row no-gutters"> <div class="col-sm-12 col-xl-12 col-xxl-12"> <div class="banner banner-overlay"> <a href="#"> <img src="http://127.0.0.1:8000/frontend/images/demos/demo-14/banners/banner-6.jpg" style="height: 300px!important" alt="Banner img desc"> </a> <div class="banner-content"> <a href=":url"><h2 class="title text-center mb-4">:name</h2></a> <h3 class="banner-title text-white"><a href=":url">:children_count models in this category</a></h3><a href=":url" class="banner-link">Shop Now <i class="icon-long-arrow-right"></i></a> </div></div></div></div></div><div class="col-xl-10 col-xxl-10"> <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow owl-loaded owl-drag" data-toggle="owl" data-owl-options="{ &quot;nav&quot;: true, &quot;dots&quot;: false, &quot;margin&quot;: 20, &quot;loop&quot;: false, &quot;responsive&quot;: { &quot;0&quot;: { &quot;items&quot;:2 }, &quot;480&quot;: { &quot;items&quot;:2 }, &quot;768&quot;: { &quot;items&quot;:3 }, &quot;992&quot;: { &quot;items&quot;:4 }, &quot;1200&quot;: { &quot;items&quot;:5 }, &quot;1600&quot;: { &quot;items&quot;:6 } } }"> <div class="owl-stage-outer"> <div class="owl-stage" style=""> :sub_category_card </div> </div> :corusel_arrow <div class="owl-dots disabled"></div></div> </div></div>';
+					var sub_category_card = '<div class="owl-item" style="width: 230px; margin-right: 20px;"><div class="product text-center"> <figure class="product-media"> <a href=":sub_cat_url"> <img src=":sub_cat_img" alt="" class="product-image sub_cat"> </a> </figure> <a href=":sub_cat_url"> <div class="product-body"> <h3 class="product-title">:sub_cat_name</h3> <div class="product-price"> :models_count Models </div> </div> </a> </div> </div>';
+					var corusel_arrow = '<div class="owl-nav"> <button type="button" role="presentation" class="owl-prev disabled"><i class="icon-angle-left"></i></button> <button type="button" role="presentation" class="owl-next"><i class="icon-angle-right"></i></button> </div> <div class="owl-dots disabled"></div> <div class="owl-nav"> <button type="button" role="presentation" class="owl-prev"> <i class="icon-angle-left"></i> </button> <button type="button" role="presentation" class="owl-next disabled"> <i class="icon-angle-right"></i> </button> </div>';
+					count = count+5;
+					var items =  JSON.parse(response.items);
+					var data_status = jQuery.isEmptyObject(items);
+                    if(!data_status){
+						var all_html = "";
+                        var all_cat_html = "";
+                        items.forEach(element => {
+                        	var all_subcat_html = "";
+							sub_url = sub_url.replace(':cat_id',element.id);
+							if(!jQuery.isEmptyObject(element.children)){
+								element.children.forEach(subcat=>{
+									var sub_cat_url = "{{route('category',':cat_id')}}";
+									sub_cat_url = sub_cat_url.replace(':cat_id',subcat.id);
+									all_subcat_html = all_subcat_html + sub_category_card;
+									all_subcat_html = all_subcat_html.replaceAll(':sub_cat_url',sub_cat_url);
+									all_subcat_html = all_subcat_html.replaceAll(':sub_cat_name',subcat.name);
+									all_subcat_html = all_subcat_html.replaceAll(':models_count',count);
+									all_subcat_html = all_subcat_html.replaceAll(':sub_cat_img','http://127.0.0.1:8000/storage/app/public/images/QYGo0ySyyviXhaUGO4EsUnUokHTu37FWijORID4I.jpg');
+								});
+							}
+							all_html = all_html + category_html;
+							all_html = all_html.replaceAll(":sub_category_card",all_subcat_html);
+							all_html = all_html.replaceAll(":url",sub_url);
+							all_html = all_html.replaceAll(":name",element.name);
+							all_html = all_html.replaceAll(":children_count",Object.keys(element.children).length);
+							if(Object.keys(element.children).length>5){
+								all_html = all_html.replaceAll(":corusel_arrow",corusel_arrow);
+							}
+							else{
+								all_html = all_html.replaceAll(":corusel_arrow","");
+							}
+						});
+						$('.home-category').append(all_html);
+						if(response.remaining<0){
+							$('.category-load-more').css('display','none');
+						}else{
+							$('.category-load-more').data('count',count);
+						}
+					}
+					else{
+						$('.category-load-more').css('display','none');
+					}
+
+
+				});
+			});
+		});
+	</script>	
+@endpush

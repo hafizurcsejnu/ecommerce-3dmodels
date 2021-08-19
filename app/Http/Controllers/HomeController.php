@@ -43,8 +43,21 @@ class HomeController extends Controller
       ->limit(30)
       ->get(); 
 
-      $categories = ProductCategory::with('children')->has('children')->paginate(5);
+      $categories = ProductCategory::with('children')->has('children')->where('parent_id',NULL)->paginate(5);
       return view('home', ['featured_products'=>$featured_products, 'top_selling'=>$top_selling, 'sets'=>$sets, 'collections'=>$collections, 'menu'=>'home','categories'=>$categories]);  
+    }
+
+    public function loadCategories(Request $request){
+      $categories = ProductCategory::with('children')->has('children')->where('parent_id',null)->skip($request->count)->take(5)->get();
+      $remaining = ProductCategory::with('children')->has('children')->where('parent_id',null)->skip($request->count)->take(5)->count();
+      $total = ProductCategory::where('parent_id',null)->count();
+      $remaining = $total - ($remaining + $request->count+5);
+      $data = [
+        "total"=>$total,
+        "remaining"=>$remaining,
+        "items"=>json_encode($categories)
+      ];
+      return response()->json($data);
     }
 
     public function show($id)
