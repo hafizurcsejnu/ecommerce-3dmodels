@@ -8,7 +8,7 @@ use App\Models\Collection;
 
 <main class="main">	
 	
-	<div class="d-none1 intro-slider-container text-center">
+	<div class="intro-slider-container text-center">
 		<div class="row">
 			<div class="col-md-10">
 				<div class="owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl" data-owl-options='{"nav": false}'>
@@ -87,7 +87,7 @@ use App\Models\Collection;
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xl-12 col-xxl-12">
-				{{-- col-xl-3 col-xxl-2 order-xl-first --}}
+				
 
 				{{-- banner --}}
 				<div class="d-none row">
@@ -412,24 +412,24 @@ $subCategory = $data->count();
 	}
 ?>	
 <!-- sub category item-->
-							<div class="owl-item active"><div class="product text-center">
-								<figure class="product-media">
-									{{-- <span class="product-label label-top">Top</span> --}}
-									<a href="{{URL::to('3dmodels-category')}}/{{$item->id}}">	
-										<img src="{{ URL::asset('storage/app/public/'.$item->image.'') }}" alt="" class="product-image sub_cat">
-									</a>
-								</figure>
+	<div class="owl-item active"><div class="product text-center">
+		<figure class="product-media">
+			{{-- <span class="product-label label-top">Top</span> --}}
+			<a href="{{URL::to('3dmodels-category')}}/{{$item->id}}">	
+				<img src="{{ URL::asset('storage/app/public/'.$item->image.'') }}" alt="" class="product-image sub_cat">
+			</a>
+		</figure>
 
-								<a href="{{URL::to('3dmodels-category')}}/{{$item->id}}">	
-									<div class="product-body">									
-										<h3 class="product-title">{{$item->name}}</h3>
-										<div class="product-price">
-											{{$row_count}} Models
-										</div>
-									</div>
-								</a>
-								</div>
-							</div>
+		<a href="{{URL::to('3dmodels-category')}}/{{$item->id}}">	
+			<div class="product-body">									
+				<h3 class="product-title">{{$item->name}}</h3>
+				<div class="product-price">
+					{{$row_count}} Models
+				</div>
+			</div>
+		</a>
+		</div>
+	</div>
 <!-- sub category item end -->						
 @endforeach
 
