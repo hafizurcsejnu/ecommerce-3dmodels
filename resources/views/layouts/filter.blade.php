@@ -493,7 +493,22 @@
             $(document).on('change','#sortby',function(){
                 var value = $(this).val();
                 if(value == "date"){
-                    location.reload();
+                    var result = $('.product-column').sort(function (a, b) {
+                        var contentA =parseInt( $(a).data('date'));
+                        var contentB =parseInt( $(b).data('date'));
+                        return (contentA > contentB) ? -1 : (contentA < contentB) ? 1 : 0;
+                    });
+
+                    $('.products .row').html(result);
+                }
+                else if (value=="price"){
+                    var result = $('.product-column').sort(function (a, b) {
+                        var contentA =parseInt( $(a).data('price'));
+                        var contentB =parseInt( $(b).data('price'));
+                        return (contentA > contentB) ? -1 : (contentA < contentB) ? 1 : 0;
+                    });
+
+                    $('.products .row').html(result);
                 }
                 else{
                     var result = $('.product-column').sort(function (a, b) {

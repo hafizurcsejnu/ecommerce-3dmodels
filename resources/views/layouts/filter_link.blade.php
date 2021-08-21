@@ -47,6 +47,7 @@
             <div class="select-custom">
                 <select name="sortby" id="sortby" class="form-control">
                     <option value="date" selected="selected">Date</option>
+                    <option value="price">Price</option>
                     <option value="popularity">Most Popular</option>
                 </select>
             </div>
