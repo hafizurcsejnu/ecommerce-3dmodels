@@ -27,6 +27,11 @@
         //   $("#descForm").append("<input type='hidden' name='description' value='"+discription+"'>");
           $("#descForm").submit();
         });
+
+        $(document).on('click','.delete-btn',function(){
+            var id = $(this).data('id');
+            $('#confirm_delete_modal .submit-delete').attr('href','/delete-product/'+id);
+        });
         
     });
 

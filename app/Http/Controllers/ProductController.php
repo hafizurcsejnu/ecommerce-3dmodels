@@ -24,10 +24,17 @@ class ProductController extends Controller
       // ->where('products.freebee', null)
       // ->get(); 
 
-      $data = Product::withCount('popularity')->orderBy('created_at', 'desc')->paginate(30);
+      $data = Product::withCount('popularity')
+                      ->where('active','on')
+                      ->where('is_set',null)
+                      ->where('freebee',null)
+                      ->orderBy('created_at', 'desc')->paginate(30);
       $total = Product::count();
       if($request->ajax()){
         $query = Product::query()->with('category');
+        $query->where('active','on');
+        $query->where('is_set',null);
+        $query->where('freebee',null);
         if($request->has('filter')){
           $form_data = [];
           parse_str($request->filter, $form_data);
