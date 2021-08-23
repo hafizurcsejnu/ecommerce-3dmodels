@@ -1099,8 +1099,8 @@ use App\Models\Collection;
                     count: count,
                 },function(response){
 					var sub_url = "{{route('category',':cat_id')}}";
-					var category_html = '<div class="row cat-banner-row :cat_name"> <div class="col-xl-2 col-xxl-2"> <div class="cat-banner row no-gutters"> <div class="col-sm-12 col-xl-12 col-xxl-12"> <div class="banner banner-overlay"> <a href="#"> <img src="http://127.0.0.1:8000/frontend/images/demos/demo-14/banners/banner-6.jpg" style="height: 300px!important" alt="Banner img desc"> </a> <div class="banner-content"> <a href=":url"><h2 class="title text-center mb-4">:name</h2></a> <h3 class="banner-title text-white"><a href=":url">:children_count models in this category</a></h3><a href=":url" class="banner-link">Shop Now <i class="icon-long-arrow-right"></i></a> </div></div></div></div></div><div class="col-xl-10 col-xxl-10"> <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow owl-loaded owl-drag" data-toggle="owl" data-owl-options="{ &quot;nav&quot;: true, &quot;dots&quot;: false, &quot;margin&quot;: 20, &quot;loop&quot;: false, &quot;responsive&quot;: { &quot;0&quot;: { &quot;items&quot;:2 }, &quot;480&quot;: { &quot;items&quot;:2 }, &quot;768&quot;: { &quot;items&quot;:3 }, &quot;992&quot;: { &quot;items&quot;:4 }, &quot;1200&quot;: { &quot;items&quot;:5 }, &quot;1600&quot;: { &quot;items&quot;:6 } } }"> <div class="owl-stage-outer"> <div class="owl-stage" style=""> :sub_category_card </div> </div> :corusel_arrow <div class="owl-dots disabled"></div></div> </div></div>';
-					var sub_category_card = '<div class="owl-item" style="width: 230px; margin-right: 20px;"><div class="product text-center"> <figure class="product-media"> <a href=":sub_cat_url"> <img src=":sub_cat_img" alt="" class="product-image sub_cat"> </a> </figure> <a href=":sub_cat_url"> <div class="product-body"> <h3 class="product-title">:sub_cat_name</h3> <div class="product-price"> :models_count Models </div> </div> </a> </div> </div>';
+					var category_html = '<div class="row cat-banner-row :cat_name"> <div class="col-xl-2 col-xxl-2"> <div class="cat-banner row no-gutters"> <div class="col-sm-12 col-xl-12 col-xxl-12"> <div class="banner banner-overlay"> <a href="#"> <img src="http://127.0.0.1:8000/frontend/images/demos/demo-14/banners/banner-6.jpg" style="height: 300px!important" alt="Banner img desc"> </a> <div class="banner-content"> <a href=":url"><h2 class="title text-center mb-4">:name</h2></a> <h3 class="banner-title text-white"><a href=":url">:children_count models in this category</a></h3><a href=":url" class="banner-link">Shop Now <i class="icon-long-arrow-right"></i></a> </div></div></div></div></div><div class="col-xl-10 col-xxl-10"> <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow owl-loaded owl-drag" data-toggle="owl" data-owl-options="{\'nav\': true,\'dots\': false,\'margin\': 20,\'loop\': false,\'responsive\':{\'0\':{\'items\':2},\'480\':{\'items\':2},\'768\': {\'items\':3},\'992\':{\'items\':4}}}">:sub_category_card</div> </div></div>';
+					var sub_category_card = '<div class="product product-2"><figure class="product-media"> <a href=":sub_cat_url"> <img src=":sub_cat_img" alt="" class="product-image sub_cat"> </a> </figure> <a href=":sub_cat_url"> <div class="product-body"> <h3 class="product-title">:sub_cat_name</h3> <div class="product-price"> :models_count Models </div> </div> </a> </div>';
 					var corusel_arrow = '<div class="owl-nav"> <button type="button" role="presentation" class="owl-prev disabled"><i class="icon-angle-left"></i></button> <button type="button" role="presentation" class="owl-next"><i class="icon-angle-right"></i></button> </div> <div class="owl-dots disabled"></div> <div class="owl-nav"> <button type="button" role="presentation" class="owl-prev"> <i class="icon-angle-left"></i> </button> <button type="button" role="presentation" class="owl-next disabled"> <i class="icon-angle-right"></i> </button> </div>';
 					count = count+5;
 					var items =  JSON.parse(response.items);
@@ -1135,6 +1135,30 @@ use App\Models\Collection;
 							}
 						});
 						$('.home-category').append(all_html);
+						$( ".owl-carousel" ).each(function() {
+							$(this).owlCarousel({
+								"nav": true, 
+								"dots": false,
+								"margin": 20,
+								"loop": false,
+								"responsive": {
+									"0": {
+										"items":3
+									},
+									"480": {
+										"items":3
+									},
+									"768": {
+										"items":4
+									},
+									"992": {
+										"items":6
+									}
+								}
+                                    
+							});
+						});
+						
 						if(response.remaining<0){
 							$('.category-load-more').css('display','none');
 						}else{
@@ -1148,6 +1172,7 @@ use App\Models\Collection;
 
 				});
 			});
+			
 		});
 	</script>	
 @endpush
