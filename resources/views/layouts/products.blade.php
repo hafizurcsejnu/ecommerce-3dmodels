@@ -8,23 +8,22 @@
     }
     .product-body {
         min-height: 105px;
-    }
-    /* figure.product-media img {
-        height: 238px!important;
-    }  */
-    
+    }    
 </style>
 
 <div class="products">
     <div class="row">
         @foreach($data as $item)      
-        <div class="col-6 col-md-4 col-lg-4 col-xl-2 product-column"  data-count="{{$item->popularity_count}}" data-date="{{$item->created_at}}" data-price="{{$item->price}}">     
-            
+        <div class="col-6 col-md-4 col-lg-4 col-xl-2 product-column"  data-count="{{$item->popularity_count}}">                         
+
             <div class="product product-2">
                 <figure class="product-media">
                     
-                    <?php if($item->images!=null) { $images = explode('|', $item->images);?>
-
+                    <?php if($item->thumbnail != null ){?>
+                        <a href="{{URL::to('product')}}/{{$item->id}}">
+                            <img src="{{ URL::asset('storage/app/public/'.$item->thumbnail.'') }}" alt="" class="product-image">
+                        </a>
+                    <?php }elseif($item->images!=null) { $images = explode('|', $item->images);?>
                     <a href="{{URL::to('product')}}/{{$item->id}}">
                         <img src="{{asset('images')}}/{{$images[0]}}" alt="{{$images[0]}}" class="product-image">
                     </a>
@@ -77,7 +76,7 @@
                     </div>
                     <!-- End .product-cat -->
                     
-                    <h3 class="product-title"><a href="{{URL::to('product')}}/{{$item->id}}">{{$item->name}} {{$item->id}}</a></h3>
+                    <h3 class="product-title"><a href="{{URL::to('product')}}/{{$item->id}}">{{$item->name}}</a></h3>
                     <!-- End .product-title -->
                     <div class="product-price">
                         ${{$item->price}}

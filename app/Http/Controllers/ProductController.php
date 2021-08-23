@@ -419,44 +419,53 @@ class ProductController extends Controller
           foreach($data as $item)
                 {
           if($images = $item->images) $images = explode('|', $images);
-          $output .= '<div class="col-6 col-md-4 col-lg-4 col-xl-3 search_item">
-          <div class="product">
-              <figure class="product-media">
-                  <span class="product-label label-new">New</span>
-                  <a href="product/'.$item->id.'">
-                      <img src="'.asset('images').'/'.$images[0].'" alt="'.$images[0].'" class="product-image">
-                  </a>
-      
-                  <div class="product-action action-icon-top">
-                     
-                      <a href="javascript:void(0)" class="btn-product btn-cart add-to-cart" data-id="'.$item->id.'"><span class="add-to-cart-btn">Add to cart</span></a>
-      
-                      <a href="quick-view/'.$item->id.'" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
-                     
-      
-      
-                  </div>
-              </figure>
-      
-              <div class="product-body">
-                  <div class="product-cat">
-                      <a href="#">'.$item->name.'</a>
-                  </div>
-                  <h3 class="product-title"><a href="product/'.$item->id.'">'.$item->name.'</a></h3>
-                  <div class="product-price">
-                      $'.$item->price.'
-                  </div>
-                  <div class="ratings-container">
-                      <div class="ratings">
-                          <div class="ratings-val" style="width: 0%;"></div>
-                      </div>
-                      <span class="ratings-text">( 0 Reviews )</span>
-                  </div>
-                  
-              </div>
-          </div>
-      </div>';
-          
+          $output .= '<div class="col-6 col-md-4 col-lg-4 col-xl-3 product-column search_item">
+
+          <div class="product product-2">
+    <figure class="product-media">       
+        
+            <a href="/'.$item->id.'">
+                <img src="'.asset('images').'/'.$images[0].'" alt="'.$images[0].'" alt="Product image not found">
+            </a>   
+
+        <div class="product-action-vertical">"';
+           
+            $output .= '<a href="javascript:void(0)" class="btn-product-icon btn-wishlist btn-expandable addToWishlist" title="Wishlist" data-id="{{$item->id}}">
+                    <span id="atw{{$item->id}}">Add to Wishlist</span> 
+                </a>';                                           
+           
+                
+        $output .= '</div>
+
+        <div class="product-action product-action-dark">';
+
+            if(session('cart')){               
+                    $cart = session()->get('cart');
+                    if(isset($cart[$item->id])) {
+                    $class= "cart";
+                    }
+                    else{
+                    $class="";
+                    }                
+                  }
+            else{
+                  $class = "";
+             }
+
+
+             $output .= '<a href="javascript:void(0)" class="btn-product btn-cart addToCart '.$class.'" data-id="'.$item->id.'"><span>Add to cart</span></a>
+        
+            <a href="quick-view/'.$item->id.'" class="btn-product btn-quickview" title="Quick view"><span>Quick view</span></a>
+        </div>       
+    </figure>
+    <div class="product-body">
+        <div class="product-cat"></div>        
+        <h3 class="product-title"><a href="product/'.$item->id.'">'.$item->name.'</a></h3>     
+        <div class="product-price">$'.$item->price.'</div>                   
+    </div>
+   
+</div>
+</div>';         
                 }
           echo $output;
     
