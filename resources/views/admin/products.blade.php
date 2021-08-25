@@ -133,10 +133,29 @@
                           </span>
                                                                                         
 
-                          <span class="d-none d-lg-inline">
+                          <span class="d-lg-inline">
                               <a data-rel="tooltip" title="Delete" href="javascript:void(0)" data-target="#confirm_delete_modal" data-toggle="modal" data-id="{{$item->id}}" class="delete-btn v-hover">
                                   <i class="fa fa-trash text-blue-m1 text-120"></i>
                               </a>
+                              <div id="confirm_delete_modal" class="modal fade" aria-modal="true">
+                                <div class="modal-dialog modal-dialog-centered modal-confirm">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <div class="icon-box">
+                                        <i class="fa fa-times fa-4x"></i>
+                                      </div>				
+                                      <h4 class="modal-title w-100">Warning!</h4>	
+                                    </div>
+                                    <div class="modal-body">
+                                      <p class="text-center">Are you sure? This action can't be undone.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                      <a href="" class="btn btn-danger submit-delete">Delete</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>                              
                           </span>
 
                           <span class="d-lg-none text-nowrap">
@@ -164,24 +183,8 @@
     </div>
 
   </div>
-  <div id="confirm_delete_modal" class="modal fade" aria-modal="true">
-    <div class="modal-dialog modal-dialog-centered modal-confirm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="icon-box">
-            <i class="fa fa-times fa-4x"></i>
-          </div>				
-          <h4 class="modal-title w-100">Warning!</h4>	
-        </div>
-        <div class="modal-body">
-          <p class="text-center">Are you ready? This action cannot be undone.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <a href="" class="btn btn-danger submit-delete">Delete</a>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  
+  
 @endsection
 

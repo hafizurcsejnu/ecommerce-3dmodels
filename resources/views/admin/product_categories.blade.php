@@ -122,7 +122,7 @@
                       <tr class="d-style bgc-h-default-l4">
                         <td class="pl-3 pl-md-4 align-middle pos-rel"> {{$loop->iteration}} </td>
                         <td>												
-                          <img src="{{ URL::asset('storage/app/public/'.$item->image.'') }}" alt="" height="40px" width="60px;">
+                          <img src="{{ URL::asset('storage/app/public/'.$item->image.'') }}" alt="" height="50px" width="50px;">
                         </td>
                         
                         <td> <span class="text-105"> {{$item->name}} </span> </td>
@@ -263,7 +263,7 @@
                             </div>
                           </td>
                           <td>												
-                            <img src="{{ URL::asset('storage/app/public/'.$item->image.'') }}" alt="" height="40px" width="60px;">
+                            <img src="{{ URL::asset('storage/app/public/'.$item->image.'') }}" alt="" height="50px" width="50px;">
                           </td>
                           <td> <span class="text-105 @if($item->parent_id!=null){{'ml-5'}}@endif"> {{$item->name}} </span> </td>
                           <td> 
@@ -372,11 +372,30 @@
 
                             <!-- edit modal end -->                                                                      
 
-                            <span class="d-none d-lg-inline">
-                                <a data-rel="tooltip" title="Delete" href="/delete_product_category/{{$item->id}}" onclick="confirmDelete()" class="v-hover">
-                                    <i class="fa fa-trash text-blue-m1 text-120"></i>
-                                </a>
-                            </span>
+                          <span class="d-lg-inline">
+                              <a data-rel="tooltip" title="Delete" href="javascript:void(0)" data-target="#confirm_delete_modal" data-toggle="modal" data-id="{{$item->id}}" class="delete-btn v-hover">
+                                  <i class="fa fa-trash text-blue-m1 text-120"></i>
+                              </a>
+                              <div id="confirm_delete_modal" class="modal fade" aria-modal="true">
+                                <div class="modal-dialog modal-dialog-centered modal-confirm">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <div class="icon-box">
+                                        <i class="fa fa-times fa-4x"></i>
+                                      </div>				
+                                      <h4 class="modal-title w-100">Warning!</h4>	
+                                    </div>
+                                    <div class="modal-body">
+                                      <p class="text-center">Are you sure? This action can't be undone.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                      <a href="" class="btn btn-danger delete-category">Delete</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>                              
+                          </span>
 
                             <span class="d-lg-none text-nowrap">
                                 <a title="Edit" href="#" class="btn btn-outline-info shadow-sm px-4 btn-bgc-white">

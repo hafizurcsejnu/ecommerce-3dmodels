@@ -300,7 +300,7 @@ Route::middleware([admin::class])->group(function () {
     Route::post('/upload_product', [ProductController::class, 'upload'])->name('upload_product');
     Route::get('/edit-product/{id}', [ProductController::class, 'edit']);
     Route::post('/update_product', [ProductController::class, 'update']);
-    Route::get('/delete-product/{id}', [ProductController::class, 'destroy']);
+    //Route::get('/delete-product/{id}', [ProductController::class, 'destroy']);
     Route::post('/upload_price', [ProductController::class, 'updatePrice'])->name('update_price');
 
 

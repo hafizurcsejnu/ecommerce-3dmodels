@@ -1,4 +1,40 @@
     $(document).ready(function() {
+
+        $(document).on('click','.delete-btn',function(){
+            var id = $(this).data('id');
+            $('#confirm_delete_modal .delete-product').attr('href','/delete-product/'+id);
+        });
+        $(document).on('click','.delete-btn',function(){
+            var id = $(this).data('id');
+            $('#confirm_delete_modal .delete-category').attr('href','/delete_product_category/'+id);
+        });
+        $(document).on('click','.delete-btn',function(){
+            var id = $(this).data('id');
+            $('#confirm_delete_modal .delete-collection').attr('href','/delete-collection/'+id);
+        });
+        $(document).on('click','.delete-btn',function(){
+            var id = $(this).data('id');
+            $('#confirm_delete_modal .delete-datalookup').attr('href','/delete_data_lookup/'+id);
+        });
+        $(document).on('click','.delete-btn',function(){
+            var id = $(this).data('id');
+            $('#confirm_delete_modal .delete-coupon').attr('href','/delete_coupon/'+id);
+        });
+        $(document).on('click','.delete-btn',function(){
+            var id = $(this).data('id');
+            $('#confirm_delete_modal .delete-page').attr('href','/delete-page/'+id);
+        });
+      
+
+
+
+
+
+
+
+
+
+
         //$("#task_area").on("click",".task_id", function(e){
         $('.task_id').on("click", function(e) {          
           e.preventDefault();   
@@ -28,10 +64,7 @@
           $("#descForm").submit();
         });
 
-        $(document).on('click','.delete-btn',function(){
-            var id = $(this).data('id');
-            $('#confirm_delete_modal .submit-delete').attr('href','/delete-product/'+id);
-        });
+       
         
     });
 

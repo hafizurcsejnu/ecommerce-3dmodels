@@ -325,6 +325,7 @@ use App\Models\Collection;
 
 				<div class="mb-5"></div><!-- End .mb-5 -->
 
+			
 				<!-- categories data -->
 				<div class="home-category">
 
@@ -336,13 +337,17 @@ use App\Models\Collection;
 								<div class="col-sm-12 col-xl-12 col-xxl-12">
 									<div class="banner banner-overlay">
 										<a href="#">
-											<img src="http://127.0.0.1:8000/frontend/images/demos/demo-14/banners/banner-6.jpg" style="height: 300px!important" alt="Banner img desc">
+											@if($category->image != null )
+												<img src="{{ URL::asset('storage/app/public/'.$category->image.'') }}" alt="Category img">
+											@else
+												<img src="{{asset('frontend/images/no-cat-image.png')}}" width="260px" height="260px">
+											@endif   
 										</a>
 
 										<div class="banner-content">										
 											<a href="{{route('category',$category->id)}}"><h2 class="title text-center mb-4">{{$category->name}}</h2></a>
 
-											<h3 class="banner-title text-white"><a href="{{route('category',$category->id)}}">{{count($category->children)}} models in this category</a></h3><!-- End .banner-title -->
+											<h3 class="banner-title text-white"><a href="{{route('category',$category->id)}}">{{count($category->children)}} sub category in this category</a></h3><!-- End .banner-title -->
 											<a href="{{route('category',$category->id)}}" class="banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
 										</div><!-- End .banner-content -->
 									</div><!-- End .banner -->
@@ -389,12 +394,16 @@ use App\Models\Collection;
 									<div class="owl-item" style="width: 230px; margin-right: 20px;"><div class="product text-center">
 										<figure class="product-media">
 											
-											<a href="{{route('sub-category',$subcat->id)}}">	
-												<img src="http://127.0.0.1:8000/storage/app/public/images/QYGo0ySyyviXhaUGO4EsUnUokHTu37FWijORID4I.jpg" alt="" class="product-image sub_cat">
+											<a href="{{route('category',$subcat->id)}}">
+												@if($subcat->image != null )
+													<img src="{{ URL::asset('storage/app/public/'.$subcat->image.'') }}" alt="" class="product-image sub_cat">
+												@else
+													<img src="{{asset('frontend/images/no-cat-image.png')}}" class="product-image sub_cat">
+												@endif   
 											</a>
 										</figure>
 
-										<a href="{{route('sub-category',$subcat->id)}}">	
+										<a href="{{route('category',$subcat->id)}}">	
 											<div class="product-body">									
 												<h3 class="product-title">{{$subcat->name}}</h3>
 												<div class="product-price">

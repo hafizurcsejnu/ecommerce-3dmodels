@@ -322,19 +322,25 @@ class ProductController extends Controller
         
         if($files=$request->file('productImages')){
             foreach($files as $file){
-                $name=$file->getClientOriginalName();
-                //need to check which is removed and skip those
-                //$name = time().rand(100,999).'_'.$name;                
-                $file->move('images',$name);                
-                $all_images[]=$name;   
+               
+                $name_original=$file->getClientOriginalName();               
+                if (in_array($name_original, $removed_items)) {
+                    //echo "Just skip";
+                }else{
+                  $name = time().rand(100,999).'_'.$name_original;                
+                  $file->move('new_images',$name);                
+                  $all_images[]=$name;   
+                }
+                // print_r($name_original);
+                // dd($removed_items);                
             }
+            print_r($all_images);
         }
-        if($removed_images){          
-          $final_images_array = array_diff($all_images, $removed_items);  
-          $final_images = implode('|', $final_images_array);          
-        }else{
-          $final_images = implode('|', $all_images);          
-        }      
+        
+       
+       
+        $final_images = implode('|', $all_images);   
+        dd($final_images);
       
 
         $data = new Product;
@@ -521,16 +527,25 @@ class ProductController extends Controller
           //print_r($hidden_image_array);
           // echo "<br/>";
 
-          if($files=$request->file('productImages')){
+        $removed_images =$request->excludeImages;   
+        $removed_items= explode("*",$removed_images);
+
+        if($files=$request->file('productImages')){
             foreach($files as $file){
-                $name=$file->getClientOriginalName();
-                $file->move('images',$name);
-                $new_images[]=$name;
-              }
-          }         
+                $name_original=$file->getClientOriginalName();               
+                if (in_array($name_original, $removed_items)) {
+                    //echo "Just skip";
+                }else{
+                  $name = time().rand(100,999).'_'.$name_original;                
+                  $file->move('new_images',$name);                
+                  $new_images[]=$name;   
+                }
+              }             
+              //print_r($new_images);
+          }            
         
         $all_selected_images = array_merge($hidden_image_array,$new_images);
-        //print_r($all_selected_images);       
+        print_r($all_selected_images);       
 
         // getting all removed items
         $removed_image = $request->excludeImages;
@@ -546,11 +561,12 @@ class ProductController extends Controller
             }
             else{                
                 $filtered_image_path = explode('/images/',$image);                
-                $filtered_image_path = $filtered_image_path[1];
+                $filtered_image_path = $filtered_image_path[1];                
                 array_push($removed_image_name, $filtered_image_path);
             } 
           }            
         }
+        //dd($removed_image_name);
 
         // delete removed items
         foreach($removed_image_name as $filename){
@@ -581,7 +597,7 @@ class ProductController extends Controller
 
           $final_images =  array_diff($all_selected_images, $removed_image_name);          
           $final_images = implode('|', $final_images);
-          // dd($final_images);         
+          dd($final_images);         
 
 
           $data = Product::find($request->id);
