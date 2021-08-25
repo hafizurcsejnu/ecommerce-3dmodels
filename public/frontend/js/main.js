@@ -652,7 +652,7 @@ $(document).ready(function () {
     });
 
     // Product quickView popup
-    $('.btn-quickview').on('click', function (e) {
+    $(document).on('click', '.btn-quickview', function (e) {
         var ajaxUrl = $(this).attr('href');
         if ( $.fn.magnificPopup ) {
             setTimeout(function () {

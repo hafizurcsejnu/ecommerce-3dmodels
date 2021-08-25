@@ -336,11 +336,14 @@
                                 html = html.replace(":product_status","");
                             }
 
-
+                            
                             $('.products .row').append(html);
                         });
+                        // alert($('#sortby').val());
+                        // sort($('#sortby').val());
                         $('.btn-load-more').data('count',count);
                         $('#show_count').html(loaded_item);
+
                     }else{
 
                         $('.btn-load-more').css('display',"none");
@@ -348,7 +351,7 @@
                         $('#status').html("No More Models Available");
                     }
                 });
-
+                
             });
 
             // submit filter_form
@@ -484,7 +487,7 @@
                         $("#usages-list").html(list);
                     }
                     $('.filter-data-list').slideDown(1000);
-
+                    // sort($('#sortby').val());
                 });
             });
             $(document).on('click','.close-filter',function(){
@@ -492,38 +495,40 @@
             });
             $(document).on('change','#sortby',function(){
                 var value = $(this).val();
-                if(value == "date"){
-                    var result = $('.product-column').sort(function (a, b) {
-                        var contentA =parseInt( $(a).data('date'));
-                        var contentB =parseInt( $(b).data('date'));
-                        return (contentA > contentB) ? -1 : (contentA < contentB) ? 1 : 0;
-                    });
-
-                    $('.products .row').html(result);
-                }
-                else if (value=="price"){
-                    var result = $('.product-column').sort(function (a, b) {
-                        var contentA =parseInt( $(a).data('price'));
-                        var contentB =parseInt( $(b).data('price'));
-                        return (contentA > contentB) ? -1 : (contentA < contentB) ? 1 : 0;
-                    });
-
-                    $('.products .row').html(result);
-                }
-                else{
-                    var result = $('.product-column').sort(function (a, b) {
-                        var contentA =parseInt( $(a).data('count'));
-                        var contentB =parseInt( $(b).data('count'));
-                        return (contentA > contentB) ? -1 : (contentA < contentB) ? 1 : 0;
-                    });
-
-                    $('.products .row').html(result);
-
-                }
+                sort(value);
 
             })
             
         });
+        function sort(slug){
+            if(slug == "date"){
+                var result = $('.product-column').sort(function (a, b) {
+                    var contentA =new Date($(a).data('date'));
+                    var contentB =new Date($(b).data('date'));
+                    return (contentA > contentB) ? -1 : (contentA < contentB) ? 1 : 0;
+                });
+                $('.products .row').html(result);
+            }
+            else if (slug=="price"){
+                var result = $('.product-column').sort(function (a, b) {
+                    var contentA =parseInt( $(a).data('price'));
+                    var contentB =parseInt( $(b).data('price'));
+                    return (contentA > contentB) ? -1 : (contentA < contentB) ? 1 : 0;
+                });
+
+                $('.products .row').html(result);
+            }
+            else{
+                var result = $('.product-column').sort(function (a, b) {
+                    var contentA =parseInt( $(a).data('count'));
+                    var contentB =parseInt( $(b).data('count'));
+                    return (contentA > contentB) ? -1 : (contentA < contentB) ? 1 : 0;
+                });
+
+                $('.products .row').html(result);
+
+            }
+        }
     </script>
 
 @endpush
