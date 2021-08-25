@@ -14,7 +14,7 @@
 <div class="products">
     <div class="row">
         @foreach($data as $item)      
-        <div class="col-6 col-md-4 col-lg-4 col-xl-2 product-column"  data-count="{{$item->popularity_count}}">                         
+        <div class="col-6 col-md-4 col-lg-4 col-xl-2 product-column"  data-count="{{$item->popularity_count}}" data-date="{{$item->created_at}}" data-price="{{$item->price}}">                         
 
             <div class="product product-2">
                 <figure class="product-media">
